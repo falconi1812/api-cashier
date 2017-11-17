@@ -14,6 +14,12 @@ class Customer extends Controller
         $this->customerService = new CustomerService();
     }
 
+    /**
+     * @SWG\Get(
+     *     path="/clients",
+     *     @SWG\Response(response="200", description="An example resource")
+     * )
+     */
     public function customers()
     {
         return response()->json($this->customerService->getClients());
