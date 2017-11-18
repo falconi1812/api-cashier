@@ -54,6 +54,9 @@
             "php artisan clear-compiled",
             "php artisan optimize",
             "chmod -R 777 .",
+            "php artisan cache:clear",
+            "php artisan config:clear",
+            "php artisan view:clear",
             "php artisan serve --port=$PORT"
         ]
     },
