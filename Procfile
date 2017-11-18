@@ -1,1 +1,1 @@
-web: vendor/bin/heroku-php-apache2 app/ heroku ps heroku open
+web: vendor/bin/heroku-php-nginx -C nginx.conf public/
