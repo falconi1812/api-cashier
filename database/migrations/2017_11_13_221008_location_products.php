@@ -13,7 +13,14 @@ class LocationProducts extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('location_products', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('product_id')->unsigned();
+            $table->integer('location_id')->unsigned();
+            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('location_id')->references('id')->on('locations');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +30,6 @@ class LocationProducts extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('location_products');
     }
 }

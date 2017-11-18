@@ -5,15 +5,70 @@
         "version": "0.1"
     },
     "paths": {
-        "/clients": {
+        "/customers": {
             "get": {
+                "tags": [
+                    "Customers"
+                ],
                 "responses": {
                     "200": {
-                        "description": "An example resource"
+                        "description": "Should return all clients for today",
+                        "schema": {
+                            "$ref": "#/definitions/ClientsPerDay"
+                        }
                     }
                 }
             }
         }
     },
-    "definitions": {}
+    "definitions": {
+        "ClientsPerDay": {
+            "properties": {
+                "location": {
+                    "type": "array",
+                    "items": {
+                        "properties": {
+                            "code_loc": {
+                                "type": "string"
+                            },
+                            "nom": {
+                                "type": "string"
+                            },
+                            "prenom": {
+                                "type": "string"
+                            },
+                            "mail": {
+                                "type": "string"
+                            },
+                            "tel": {
+                                "type": "string"
+                            },
+                            "hour_start": {
+                                "type": "string"
+                            },
+                            "hour_end": {
+                                "type": "string"
+                            },
+                            "terrain": {
+                                "type": "string"
+                            },
+                            "nb": {
+                                "type": "integer"
+                            },
+                            "type_rental": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Customers",
+            "description": "Everything about your daily customers"
+        }
+    ]
 }

@@ -15,4 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/clients', 'Customer@customers');
+Route::get('/customers', 'Customer@customers');

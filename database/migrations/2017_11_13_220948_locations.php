@@ -26,7 +26,9 @@ class Locations extends Migration
             $table->integer('hour_start');
             $table->date('day');
             $table->integer('type_id')->unsigned();
+            $table->integer('terrain_id')->unsigned();
             $table->foreign('type_id')->references('id')->on('type');
+            $table->foreign('terrain_id')->references('id')->on('terrain');
             $table->timestamps();
         });
     }

@@ -9,6 +9,25 @@ class CustomerService extends Service
         parent::__construct();
     }
 
+    /**
+     * @SWG\Definition(
+     * 		definition="ClientsPerDay",
+     * 		@SWG\Property(property="location", type="array", @SWG\Items(
+     *          type="object",
+     *          @SWG\Property(property="code_loc", type="string"),
+     *          @SWG\Property(property="nom", type="string"),
+     *          @SWG\Property(property="prenom", type="string"),
+     *          @SWG\Property(property="mail", type="string"),
+     *          @SWG\Property(property="tel", type="string"),
+     *          @SWG\Property(property="hour_start", type="string"),
+     *          @SWG\Property(property="hour_end", type="string"),
+     *          @SWG\Property(property="terrain", type="string"),
+     *          @SWG\Property(property="nb", type="integer"),
+     *          @SWG\Property(property="type_rental", type="string"),
+     *      )
+     *   ),
+     * )
+     */
     public function getClients()
     {
         $today = date('Y-m-d');

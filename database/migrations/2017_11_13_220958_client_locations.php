@@ -13,7 +13,15 @@ class ClientLocations extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('client_locations', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('client_id')->unsigned();
+            $table->integer('location_id')->unsigned();
+            $table->foreign('client_id')->references('id')->on('clients');
+            $table->foreign('location_id')->references('id')->on('locations');
+            $table->date('day');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +31,6 @@ class ClientLocations extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('client_locations');
     }
 }
