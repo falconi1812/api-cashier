@@ -15,7 +15,6 @@ class Type extends Migration
     {
         Schema::create('type', function (Blueprint $table) {
             $table->increments('id');
-//            $table->primary('id');
             $table->string('name');
             $table->timestamps();
         });
