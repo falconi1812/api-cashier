@@ -56,7 +56,8 @@
             "chmod -R 777 .",
             "php artisan l5-swagger:publish",
             "php artisan l5-swagger:publish-config",
-            "php artisan l5-swagger:generate"
+            "php artisan l5-swagger:generate",
+            "php artisan migrate"
         ]
     },
     "config": {
