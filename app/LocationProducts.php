@@ -13,6 +13,11 @@ class LocationProducts extends Model
      */
     protected $fillable = [
         "product_id",
-        "location_id"
+        "location_id",
+        "products_in_list",
+        "products_in_payment",
+        "total_in_list",
+        "total_in_payment",
+        "total_payed",
     ];
 }

@@ -12,16 +12,11 @@ class Locations extends Model
      * @var array
      */
     protected $fillable = [
-        'products_in_list',
-        'products_in_payment',
-        'total_in_list',
-        'total_in_payment',
-        'total_payed',
-        'players',
-        'hour_end',
-        'hour_start',
-        'day',
-        'type_id',
-        'terrain_id'
+        "players",
+        "hour_end",
+        "hour_start",
+        "day",
+        "type_id",
+        "terrain_id"
     ];
 }
