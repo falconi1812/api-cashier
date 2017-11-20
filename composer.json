@@ -57,7 +57,7 @@
             "php artisan l5-swagger:publish",
             "php artisan l5-swagger:publish-config",
             "php artisan l5-swagger:generate",
-            "php artisan migrate"
+            "php artisan migrate:refresh"
         ]
     },
     "config": {
