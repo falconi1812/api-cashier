@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-class CustomerService extends Service
+class ClientService extends Service
 {
     public function __construct()
     {

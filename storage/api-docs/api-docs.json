@@ -5,10 +5,10 @@
         "version": "0.1"
     },
     "paths": {
-        "/customers": {
+        "/clients": {
             "get": {
                 "tags": [
-                    "Customers"
+                    "Clients"
                 ],
                 "responses": {
                     "200": {
@@ -67,8 +67,20 @@
     },
     "tags": [
         {
-            "name": "Customers",
-            "description": "Everything about your daily customers"
+            "name": "Clients",
+            "description": "Everything about your daily clients"
+        },
+        {
+            "name": "Locations",
+            "description": "Terrains and clients relationship"
+        },
+        {
+            "name": "Products",
+            "description": "Main products inventory"
+        },
+        {
+            "name": "Terrain",
+            "description": "This is mostly a catalog of terrains available"
         }
     ]
 }
