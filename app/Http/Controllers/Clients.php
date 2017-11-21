@@ -11,7 +11,7 @@ use App\Services\ClientService;
  *   description="Everything about your daily clients"
  * )
  */
-class Clients extends Controller
+class ClientsController extends Controller
 {
     private $clientService;
 

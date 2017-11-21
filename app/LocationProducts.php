@@ -20,4 +20,20 @@ class LocationProducts extends Model
         "total_in_payment",
         "total_payed",
     ];
+
+    /**
+     * Get the product record associated.
+     */
+    public function product()
+    {
+        return $this->hasMany('App\Products', 'id', 'product_id');
+    }
+
+    /**
+     * Get the location record associated.
+     */
+    public function location()
+    {
+        return $this->hasMany('App\Location', 'id', 'location_id');
+    }
 }
