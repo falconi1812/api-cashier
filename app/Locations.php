@@ -19,4 +19,12 @@ class Locations extends Model
         "type_id",
         "terrain_id"
     ];
+
+    /**
+     * Get the products record associated with the location.
+     */
+    public function products()
+    {
+        return $this->hasMany('App\LocationProducts', 'product_id', 'id');
+    }
 }

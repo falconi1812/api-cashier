@@ -12,5 +12,8 @@ use Illuminate\Http\Request;
  */
 class Locations extends Controller
 {
-    //
+    public function getLocation()
+    {
+        
+    }
 }
