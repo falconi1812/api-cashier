@@ -31,7 +31,7 @@ class ClientService extends Service
     public function getClients()
     {
         $today = date('Y-m-d');
-        $uri = str_replace('{YYYY-MM-DD}', $today, env('GET_CLIENTS'));
+        $uri = str_replace('{YYYY-MM-DD}', '2017-10-28', env('GET_CLIENTS'));
         $response = $this->client->request('GET', $uri);
 
         return json_decode($response->getBody());
