@@ -16,4 +16,21 @@ class ClientLocations extends Model
         "location_id",
         "day"
     ];
+
+    /**
+     * Get the location record associated.
+     */
+    public function location()
+    {
+        return $this->hasOne('App\Location', 'id', 'location_id');
+    }
+
+    /**
+     * Get the client record associated.
+     */
+    public function client()
+    {
+        return $this->hasOne('App\Client', 'id', 'client_id');
+    }
+
 }
