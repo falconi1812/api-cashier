@@ -17,4 +17,12 @@ class Clients extends Model
         "email",
         "phone"
     ];
+
+    /**
+     * Get the location record associated.
+     */
+    public function clientLocation()
+    {
+        return $this->hasMany('App\ClientLocations', 'client_id', 'id');
+    }
 }

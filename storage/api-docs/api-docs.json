@@ -19,6 +19,54 @@
                     }
                 }
             }
+        },
+        "/clients/{date}": {
+            "get": {
+                "tags": [
+                    "Clients"
+                ],
+                "parameters": [
+                    {
+                        "name": "date",
+                        "in": "path",
+                        "description": "date format like this YYYY-MM-DD ",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Should return all clients for that day",
+                        "schema": {
+                            "$ref": "#/definitions/ClientsPerDay"
+                        }
+                    }
+                }
+            }
+        },
+        "/locations/{location_code}": {
+            "get": {
+                "tags": [
+                    "Locations"
+                ],
+                "parameters": [
+                    {
+                        "name": "location_code",
+                        "in": "path",
+                        "description": "location code. Example: DUF3D92P",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Should return all info by a location",
+                        "schema": {
+                            "$ref": "#/definitions/LocationByCode"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -56,6 +104,75 @@
                                 "type": "integer"
                             },
                             "type_rental": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "LocationByCode": {
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "players": {
+                    "type": "string"
+                },
+                "hour_end": {
+                    "type": "string"
+                },
+                "hour_start": {
+                    "type": "string"
+                },
+                "type_id": {
+                    "type": "string"
+                },
+                "terrain_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "products": {
+                    "type": "array",
+                    "items": {
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "product_id": {
+                                "type": "string"
+                            },
+                            "location_id": {
+                                "type": "string"
+                            },
+                            "products_in_list": {
+                                "type": "string"
+                            },
+                            "products_in_payment": {
+                                "type": "string"
+                            },
+                            "total_in_list": {
+                                "type": "string"
+                            },
+                            "total_in_payment": {
+                                "type": "string"
+                            },
+                            "total_payed": {
+                                "type": "string"
+                            },
+                            "created_at": {
+                                "type": "string"
+                            },
+                            "updated_at": {
                                 "type": "string"
                             }
                         },

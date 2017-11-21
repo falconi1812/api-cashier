@@ -2,11 +2,21 @@
 
 namespace App\Services;
 
+use App\Clients;
+use App\Repositories\ClientsRepository as clientRepository;
+use App\Repositories\LocationsRepository as locationRepository;
+
 class ClientService extends Service
 {
-    public function __construct()
+    private $clientRepository;
+
+    private $locationsRepository;
+
+    public function __construct(clientRepository $clientsRepository, locationRepository $locationsRepository)
     {
         parent::__construct();
+        $this->clientRepository = $clientsRepository;
+        $this->locationsRepository = $locationsRepository;
     }
 
     /**
@@ -28,12 +38,21 @@ class ClientService extends Service
      *   ),
      * )
      */
-    public function getClients()
+    public function getClients($date)
     {
-        $today = date('Y-m-d');
-        $uri = str_replace('{YYYY-MM-DD}', $today, env('GET_CLIENTS'));
+        $day = is_null($date) ? date('Y-m-d') : $date;
+        $uri = str_replace('{YYYY-MM-DD}', $day, env('GET_CLIENTS'));
         $response = $this->client->request('GET', $uri);
+        $clients = json_decode($response->getBody());
 
-        return json_decode($response->getBody());
+        if (!is_null($clients)) {
+            $this->clientRepository->saveClientsArray($clients->Location);
+            $mierda = $this->locationsRepository->saveLocationWithClientsArray($clients->Location);
+            return $this->locationsRepository->saveClientLocationRelationshipWithEmail($mierda);
+        }
+
+        return $clients;
     }
+
+
 }

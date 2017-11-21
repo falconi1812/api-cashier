@@ -12,6 +12,7 @@ class Locations extends Model
      * @var array
      */
     protected $fillable = [
+        "code",
         "players",
         "hour_end",
         "hour_start",

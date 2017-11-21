@@ -39,7 +39,7 @@ class LocationService extends Service
      *   ),
      * )
      */
-    public function getLocationByCode($code)
+    public function getLocationByCode(string $code)
     {
         $result = Locations::where('code', $code)->with('products')->first();
         return $result;
