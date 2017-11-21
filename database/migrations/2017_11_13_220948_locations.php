@@ -15,6 +15,7 @@ class Locations extends Migration
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('code')->unique();
             $table->integer('players');
             $table->integer('hour_end');
             $table->integer('hour_start');
