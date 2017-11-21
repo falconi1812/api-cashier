@@ -15,4 +15,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/clients', 'Clients@getAllForToday');
+Route::get('/clients', 'ClientsController@getAllForToday');
+Route::get('/locations/{location_code}', 'LocationsController@getLocation');

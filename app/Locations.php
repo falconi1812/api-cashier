@@ -21,10 +21,10 @@ class Locations extends Model
     ];
 
     /**
-     * Get the products record associated with the location.
+     * Get the products record associated with the location (many-to-many table).
      */
     public function products()
     {
-        return $this->hasMany('App\LocationProducts', 'product_id', 'id');
+        return $this->hasMany('App\LocationProducts', 'location_id', 'id');
     }
 }

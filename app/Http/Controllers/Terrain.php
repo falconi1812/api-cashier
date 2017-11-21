@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
  *   description="Mostly a catalog of terrains available"
  * )
  */
-class Terrain extends Controller
+class TerrainController extends Controller
 {
     //
 }

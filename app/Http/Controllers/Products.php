@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
  *   description="Main products inventory"
  * )
  */
-class Products extends Controller
+class ProductsController extends Controller
 {
     //
 }
