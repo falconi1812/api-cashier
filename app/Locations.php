@@ -28,4 +28,28 @@ class Locations extends Model
     {
         return $this->hasMany('App\LocationProducts', 'location_id', 'id');
     }
+
+    /**
+     * Get the client record associated with the location (many-to-one table).
+     */
+    public function clients()
+    {
+        return $this->hasOne('App\ClientLocations', 'location_id', 'id');
+    }
+
+    /**
+     * Get the type record associated with the location (many-to-one table).
+     */
+    public function type()
+    {
+        return $this->hasOne('App\Type', 'id', 'type_id');
+    }
+
+    /**
+     * Get the terrain record associated with the location (many-to-one table).
+     */
+    public function terrain()
+    {
+        return $this->hasOne('App\Terrain', 'id', 'terrain_id');
+    }
 }

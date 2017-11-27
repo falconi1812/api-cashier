@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Clients;
+use App\ClientLocations;
 use App\Repositories\ClientsRepository as clientRepository;
 use App\Repositories\LocationsRepository as locationRepository;
 
@@ -47,12 +48,15 @@ class ClientService extends Service
 
         if (!is_null($clients)) {
             $this->clientRepository->saveClientsArray($clients->Location);
-            $mierda = $this->locationsRepository->saveLocationWithClientsArray($clients->Location);
-            return $this->locationsRepository->saveClientLocationRelationshipWithEmail($mierda);
+            $saved = $this->locationsRepository->saveLocationWithClientsArray($clients->Location);
+            $clientArray = $this->locationsRepository->saveClientLocationRelationshipWithEmail($saved);
+
+            $clientsId = array_unique(array_pluck($clientArray, 'client_id'));
+
+            return ClientLocations::whereIn('client_id', $clientsId)->with(['client', 'location.type', 'location.terrain'])->get();
         }
 
         return $clients;
     }
-
 
 }

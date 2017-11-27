@@ -74,4 +74,17 @@ class LocationsRepository extends Repository {
 
         return ClientLocations::create(['client_id' => $clientId, 'location_id' => $locationId, 'day' => date('Y-m-d')]);
     }
+
+    public function getAllIncludingClientByCode(string $code)
+    {
+        $locationObject = Locations::where('code', $code)->with(['products', 'clients.client'])->first();
+
+        $client = $locationObject->clients->client;
+
+        $locationObject->client = $client;
+
+        unset($locationObject->clients);
+
+        return $locationObject;
+    }
 }

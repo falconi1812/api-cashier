@@ -15,9 +15,9 @@ class LocationsController extends Controller
 {
     private $locationService;
 
-    public function __construct()
+    public function __construct(LocationService $LocationService)
     {
-        $this->locationService = new LocationService();
+        $this->locationService = $LocationService;
     }
 
     /**
