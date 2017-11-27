@@ -22,7 +22,7 @@ class ClientLocations extends Model
      */
     public function location()
     {
-        return $this->hasOne('App\Location', 'id', 'location_id');
+        return $this->hasOne('App\Locations', 'id', 'location_id');
     }
 
     /**
@@ -30,7 +30,7 @@ class ClientLocations extends Model
      */
     public function client()
     {
-        return $this->hasOne('App\Client', 'id', 'client_id');
+        return $this->hasOne('App\Clients', 'id', 'client_id');
     }
 
 }
