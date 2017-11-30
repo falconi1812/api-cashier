@@ -67,6 +67,70 @@
                     }
                 }
             }
+        },
+        "/locations/products/{location_code}/{product_id}": {
+            "put": {
+                "tags": [
+                    "Locations"
+                ],
+                "parameters": [
+                    {
+                        "name": "location_code",
+                        "in": "path",
+                        "description": "location code. Example: DUF3D92P",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "product ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "List of ids",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "add": {
+                                    "properties": {
+                                        "products_in_list": {
+                                            "type": "integer"
+                                        },
+                                        "products_in_payment": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "remove": {
+                                    "properties": {
+                                        "products_in_list": {
+                                            "type": "integer"
+                                        },
+                                        "products_in_payment": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "type": "array"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Should save items in the location",
+                        "schema": {
+                            "$ref": "#/definitions/setItemsPerLocationCode"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -201,6 +265,28 @@
                         },
                         "type": "object"
                     }
+                }
+            }
+        },
+        "setItemsPerLocationCode": {
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "product_id": {
+                    "type": "string"
+                },
+                "location_id": {
+                    "type": "string"
+                },
+                "products_in_list": {
+                    "type": "string"
+                },
+                "products_in_payment": {
+                    "type": "string"
+                },
+                "total_payed": {
+                    "type": "string"
                 }
             }
         }
