@@ -54,8 +54,12 @@ class LocationService extends Service
      */
     public function getLocationByCode(string $code)
     {
-        $result = $this->locationsRepository->getAllIncludingClientByCode($code);
-        return $result;
+        return $this->locationsRepository->getAllIncludingClientByCode($code);
+    }
+
+    public function setItems(string $code, $body)
+    {
+        // $this->locationsRepository->
     }
 
 }

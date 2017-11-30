@@ -35,4 +35,20 @@ class LocationsController extends Controller
     {
         return response()->json($this->locationService->getLocationByCode($location_code));
     }
+
+    /**
+     * @SWG\Put(
+     *     path="/locations/{location_code}",
+     *     @SWG\Parameter(name="location_code", in="path", description="location code. Example: DUF3D92P", required=true, type="string"),
+     *     @SWG\Response(
+     *          response="200",
+     *          description="Should save items in the location",
+     *          @SWG\Schema(ref="#/definitions/LocationByCode")),
+     *     tags={"Locations"},
+     * )
+     */
+    public function setItems($location_code)
+    {
+        return response()->json($this->locationService->setItems($location_code));
+    }
 }
