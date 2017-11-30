@@ -57,9 +57,28 @@ class LocationService extends Service
         return $this->locationsRepository->getAllIncludingClientByCode($code);
     }
 
-    public function setItems(string $code, $body)
+    /**
+     * @SWG\Definition(
+     * 		definition="setItemsPerLocationCode",
+     *    @SWG\Property(property="id", type="string"),
+     *    @SWG\Property(property="product_id", type="string"),
+     *    @SWG\Property(property="location_id", type="string"),
+     *    @SWG\Property(property="products_in_list", type="string"),
+     *    @SWG\Property(property="products_in_payment", type="string"),
+     *    @SWG\Property(property="total_payed", type="string"),
+     * )
+     */
+    public function setItems(string $code, int $product_id, $body)
     {
-        // $this->locationsRepository->
+      if (isset($body['add'])) {
+        $this->locationsRepository->addItemsToList($code, $product_id, array_get($body, 'add'));
+      }
+
+      if (isset($body['remove'])) {
+        $this->locationsRepository->removeItemsFromList($code, $product_id, array_get($body, 'remove'));
+      }
+
+      return $this->locationsRepository->getProductsByCodeAndProductId($code, $product_id);
     }
 
 }

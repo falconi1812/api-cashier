@@ -38,17 +38,36 @@ class LocationsController extends Controller
 
     /**
      * @SWG\Put(
-     *     path="/locations/{location_code}",
+     *     path="/locations/products/{location_code}/{product_id}",
      *     @SWG\Parameter(name="location_code", in="path", description="location code. Example: DUF3D92P", required=true, type="string"),
+     *     @SWG\Parameter(name="product_id", in="path", description="product ID", required=true, type="string"),
+     *     @SWG\Parameter(
+     *        name="body",
+     *        in="body",
+     *        description="List of ids",
+     *        required=true,
+     *        type="array",
+     *        @SWG\Schema(
+     *          @SWG\Property(property="add", type="object",
+     *              @SWG\Property(property="products_in_list", type="integer"),
+     *              @SWG\Property(property="products_in_payment", type="integer")
+     *          ),
+     *          @SWG\Property(property="remove", type="object",
+     *              @SWG\Property(property="products_in_list", type="integer"),
+     *              @SWG\Property(property="products_in_payment", type="integer")
+     *          ),
+     *        )
+     *      ),
      *     @SWG\Response(
      *          response="200",
      *          description="Should save items in the location",
-     *          @SWG\Schema(ref="#/definitions/LocationByCode")),
+     *          @SWG\Schema(ref="#/definitions/setItemsPerLocationCode")),
      *     tags={"Locations"},
      * )
      */
-    public function setItems($location_code)
+    public function setItems($location_code, $product_id, Request $request)
     {
-        return response()->json($this->locationService->setItems($location_code));
+        $body = $request->all();
+        return response()->json($this->locationService->setItems($location_code, $product_id, $body));
     }
 }

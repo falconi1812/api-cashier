@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Locations;
 use App\ClientLocations;
 use App\Clients;
+use App\LocationProducts;
 
 class LocationsRepository extends Repository {
 
@@ -86,5 +87,41 @@ class LocationsRepository extends Repository {
         unset($locationObject->clients);
 
         return $locationObject;
+    }
+
+    public function addItemsToList(string $code, int $product_id, array $items)
+    {
+        $products = $this->getProductsByCodeAndProductId($code, $product_id);
+        $products->products_in_list = $products->products_in_list + $items['products_in_list'];
+        $products->products_in_payment = $products->products_in_payment + $items['products_in_payment'];
+
+        return $products->save();
+    }
+
+    public function removeItemsFromList(string $code, int $product_id, array $items)
+    {
+      $products = $this->getProductsByCodeAndProductId($code, $product_id);
+
+      if ($products->products_in_list < $items['products_in_list'] || $products->products_in_payment < $items['products_in_payment']) {
+        throw new \Exception("Products cannot be negative, not enough products for removal", 409);
+      }
+
+      $products->products_in_list = $products->products_in_list - $items['products_in_list'];
+      $products->products_in_payment = $products->products_in_payment - $items['products_in_payment'];
+
+      return $products->save();
+    }
+
+    public function getProductsByCodeAndProductId(string $code, int $product_id)
+    {
+      $locationObject = Locations::where('code', $code)->first();
+      $products = LocationProducts::where('location_id', $locationObject->id)->where('product_id', $product_id)->first();
+
+      if (empty($products)) {
+        $product = LocationProducts::create(['location_id' => $locationObject->id, 'product_id' => $product_id]);
+        return $product;
+      }
+
+      return $products;
     }
 }

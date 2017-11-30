@@ -14,4 +14,7 @@ class Icons extends Model
     protected $fillable = [
         "name"
     ];
+
+    protected $guarded =[];
+
 }

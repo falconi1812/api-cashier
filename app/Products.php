@@ -16,4 +16,7 @@ class Products extends Model
         "price",
         "icon_id"
     ];
+
+    protected $guarded =[];
+
 }
