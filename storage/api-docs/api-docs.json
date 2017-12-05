@@ -92,7 +92,7 @@
                         "name": "body",
                         "in": "body",
                         "description": "List of ids",
-                        "required": true,
+                        "required": false,
                         "schema": {
                             "properties": {
                                 "add": {
@@ -118,8 +118,7 @@
                                     "type": "object"
                                 }
                             }
-                        },
-                        "type": "array"
+                        }
                     }
                 ],
                 "responses": {

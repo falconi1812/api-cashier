@@ -32,7 +32,7 @@ class ClientsController extends Controller
      *
      * @SWG\Get(
      *     path="/clients/{date}",
-     *     @SWG\Parameter(name="date", in="path", description="date format like this YYYY-MM-DD ", required=true, type="string"),
+     *     @SWG\Parameter(name="date", in="path", description="date format like this YYYY-MM-DD (2017-10-21)", required=true, type="string"),
      *     @SWG\Response(
      *          response="200",
      *          description="Should return all clients for that day",

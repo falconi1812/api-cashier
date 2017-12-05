@@ -45,8 +45,7 @@ class LocationsController extends Controller
      *        name="body",
      *        in="body",
      *        description="List of ids",
-     *        required=true,
-     *        type="array",
+     *        required=false,
      *        @SWG\Schema(
      *          @SWG\Property(property="add", type="object",
      *              @SWG\Property(property="products_in_list", type="integer"),
@@ -55,7 +54,7 @@ class LocationsController extends Controller
      *          @SWG\Property(property="remove", type="object",
      *              @SWG\Property(property="products_in_list", type="integer"),
      *              @SWG\Property(property="products_in_payment", type="integer")
-     *          ),
+     *          )
      *        )
      *      ),
      *     @SWG\Response(
