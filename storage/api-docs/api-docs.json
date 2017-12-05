@@ -29,7 +29,7 @@
                     {
                         "name": "date",
                         "in": "path",
-                        "description": "date format like this YYYY-MM-DD ",
+                        "description": "date format like this YYYY-MM-DD (2017-10-21)",
                         "required": true,
                         "type": "string"
                     }
@@ -177,93 +177,92 @@
         },
         "LocationByCode": {
             "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "code": {
-                    "type": "string"
-                },
-                "players": {
-                    "type": "string"
-                },
-                "hour_end": {
-                    "type": "string"
-                },
-                "hour_start": {
-                    "type": "string"
-                },
-                "type_id": {
-                    "type": "string"
-                },
-                "terrain_id": {
-                    "type": "string"
-                },
-                "created_at": {
-                    "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                },
                 "products": {
-                    "type": "array",
-                    "items": {
-                        "properties": {
-                            "id": {
-                                "type": "string"
-                            },
-                            "product_id": {
-                                "type": "string"
-                            },
-                            "location_id": {
-                                "type": "string"
-                            },
-                            "products_in_list": {
-                                "type": "string"
-                            },
-                            "products_in_payment": {
-                                "type": "string"
-                            },
-                            "total_in_list": {
-                                "type": "string"
-                            },
-                            "total_in_payment": {
-                                "type": "string"
-                            },
-                            "total_payed": {
-                                "type": "string"
-                            },
-                            "created_at": {
-                                "type": "string"
-                            },
-                            "updated_at": {
-                                "type": "string"
-                            }
+                    "properties": {
+                        "id": {
+                            "type": "string"
                         },
-                        "type": "object"
-                    }
+                        "product_id": {
+                            "type": "string"
+                        },
+                        "location_id": {
+                            "type": "string"
+                        },
+                        "products_in_list": {
+                            "type": "string"
+                        },
+                        "products_in_payment": {
+                            "type": "string"
+                        },
+                        "total_in_list": {
+                            "type": "string"
+                        },
+                        "total_in_payment": {
+                            "type": "string"
+                        },
+                        "total_payed": {
+                            "type": "string"
+                        },
+                        "created_at": {
+                            "type": "string"
+                        },
+                        "updated_at": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "location": {
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "code": {
+                            "type": "string"
+                        },
+                        "players": {
+                            "type": "string"
+                        },
+                        "hour_end": {
+                            "type": "string"
+                        },
+                        "hour_start": {
+                            "type": "string"
+                        },
+                        "type_id": {
+                            "type": "string"
+                        },
+                        "terrain_id": {
+                            "type": "string"
+                        },
+                        "created_at": {
+                            "type": "string"
+                        },
+                        "updated_at": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
                 },
                 "client": {
-                    "type": "array",
-                    "items": {
-                        "properties": {
-                            "id": {
-                                "type": "string"
-                            },
-                            "name": {
-                                "type": "string"
-                            },
-                            "last_name": {
-                                "type": "string"
-                            },
-                            "email": {
-                                "type": "string"
-                            },
-                            "phone": {
-                                "type": "string"
-                            }
+                    "properties": {
+                        "id": {
+                            "type": "string"
                         },
-                        "type": "object"
-                    }
+                        "name": {
+                            "type": "string"
+                        },
+                        "last_name": {
+                            "type": "string"
+                        },
+                        "email": {
+                            "type": "string"
+                        },
+                        "phone": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
                 }
             }
         },
