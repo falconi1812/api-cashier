@@ -19,4 +19,12 @@ class Products extends Model
 
     protected $guarded =[];
 
+    /**
+     * Get the icon record associated with the location (many-to-many table).
+     */
+    public function Icon()
+    {
+        return $this->hasOne('App\Icons', 'id', 'icon_id');
+    }
+
 }

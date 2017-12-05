@@ -26,7 +26,7 @@ class LocationProducts extends Model
      */
     public function product()
     {
-        return $this->hasMany('App\Products', 'id', 'product_id');
+        return $this->hasOne('App\Products', 'id', 'product_id');
     }
 
     /**
