@@ -78,13 +78,21 @@ class LocationsRepository extends Repository {
 
     public function getAllIncludingClientByCode(string $code)
     {
-        $locationObject = Locations::where('code', $code)->with(['products', 'clients.client'])->first();
+        $locationObject = Locations::where('code', $code)->with(['products.product.icon', 'clients.client'])->first();
 
         $client = $locationObject->clients->client;
 
         $locationObject->client = $client;
+        // $esto =
+        // $ee = $this->parserProductsArray($locationObject->products);
+        //
+        // $locationObject->allProducts = $ee;
+
+        // $locationObject->products = $esto;
 
         unset($locationObject->clients);
+        // unset($locationObject->products);
+
 
         return $locationObject;
     }
@@ -123,5 +131,34 @@ class LocationsRepository extends Repository {
       }
 
       return $products;
+    }
+
+    public function parserProductsArray(\Illuminate\Database\Eloquent\Collection $products) : array
+    {
+
+      $productKeys = ['id', 'name', 'price', 'products_in_list', 'products_in_payment'];
+      $result = [];
+
+      foreach ($products as $product) {
+          // $result[] = $product->product->get(['id', 'name', 'price']);
+          // $result[] = $product->product->icon->get(['name']);
+      }
+
+      $result[] = $product->product->get(['id', 'name', 'price']);
+      $result[] = $product->product->icon->get(['name']);
+
+      // foreach ($products as $product) {
+      //   $product = $product->product->toArray();
+      //
+      //   $result[] = array_filter(array_map(function($key, $value) use ($productKeys) {
+      //       if (in_array($key, $productKeys)) {
+      //         return [$key => $value];
+      //       }
+      //   }, array_keys($product), array_values($product)));
+      //
+      //   $result[]['icon'] = $product['icon']['name'];
+      // }
+
+      return $result;
     }
 }
