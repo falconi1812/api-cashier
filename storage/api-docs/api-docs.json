@@ -182,26 +182,20 @@
                         "id": {
                             "type": "string"
                         },
-                        "product_id": {
+                        "icon_name": {
                             "type": "string"
                         },
-                        "location_id": {
-                            "type": "string"
+                        "icon_id": {
+                            "type": "integer"
+                        },
+                        "price": {
+                            "type": "integer"
                         },
                         "products_in_list": {
-                            "type": "string"
+                            "type": "integer"
                         },
                         "products_in_payment": {
-                            "type": "string"
-                        },
-                        "total_in_list": {
-                            "type": "string"
-                        },
-                        "total_in_payment": {
-                            "type": "string"
-                        },
-                        "total_payed": {
-                            "type": "string"
+                            "type": "integer"
                         },
                         "created_at": {
                             "type": "string"
@@ -221,7 +215,7 @@
                             "type": "string"
                         },
                         "players": {
-                            "type": "string"
+                            "type": "integer"
                         },
                         "hour_end": {
                             "type": "string"
@@ -230,10 +224,10 @@
                             "type": "string"
                         },
                         "type_id": {
-                            "type": "string"
+                            "type": "integer"
                         },
                         "terrain_id": {
-                            "type": "string"
+                            "type": "integer"
                         },
                         "created_at": {
                             "type": "string"
@@ -247,7 +241,7 @@
                 "client": {
                     "properties": {
                         "id": {
-                            "type": "string"
+                            "type": "integer"
                         },
                         "name": {
                             "type": "string"
