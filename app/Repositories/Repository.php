@@ -9,3 +9,5 @@ class Repository {
         // should add something here
     }
 }
+
+?>

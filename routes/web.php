@@ -16,6 +16,11 @@ Route::get('/', function () {
 });
 
 Route::get('/clients/{date?}', 'ClientsController@getAllForToday');
-Route::get('/locations/{location_code}', 'LocationsController@getLocation');
 
+Route::get('/locations/{location_code}', 'LocationsController@getLocation');
 Route::put('/locations/products/{location_code}/{product_id}', 'LocationsController@setItems');
+
+Route::post('/products', 'ProductsController@create');
+Route::get('/products', 'ProductsController@read');
+Route::put('/products/{product_id}', 'ProductsController@update');
+Route::delete('/products/{product_id}', 'ProductsController@delete');
