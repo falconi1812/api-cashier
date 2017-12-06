@@ -48,7 +48,7 @@ class LocationService extends Service
      *   ),
      * )
      */
-    public function getLocationByCode(string $code)
+    public function getLocationByCode(string $code) : array
     {
         $location = $this->locationsRepository->getAllIncludingClientByCode($code);
 
@@ -70,7 +70,7 @@ class LocationService extends Service
      *    @SWG\Property(property="total_payed", type="string"),
      * )
      */
-    public function setItems(string $code, int $product_id, $body)
+    public function setItems(string $code, int $product_id, $body) : \App\LocationProducts
     {
       if (isset($body['add'])) {
         $this->locationsRepository->addItemsToList($code, $product_id, array_get($body, 'add'));
@@ -84,3 +84,5 @@ class LocationService extends Service
     }
 
 }
+
+?>

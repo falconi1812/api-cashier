@@ -12,4 +12,15 @@ class Service
     {
         $this->client = new Client();
     }
+
+    public function getBody(\Illuminate\Http\Request $body)
+    {
+      if (empty($body->all())) {
+          throw new \Exception("Body empty.", 400);
+      }
+
+      return $body;
+    }
 }
+
+?>

@@ -148,3 +148,5 @@ class LocationsRepository extends Repository {
       return $allProducts;
     }
 }
+
+?>

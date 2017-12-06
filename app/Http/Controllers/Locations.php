@@ -70,3 +70,5 @@ class LocationsController extends Controller
         return response()->json($this->locationService->setItems($location_code, $product_id, $body));
     }
 }
+
+?>
