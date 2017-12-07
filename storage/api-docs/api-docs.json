@@ -130,6 +130,120 @@
                     }
                 }
             }
+        },
+        "/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Return all produtcs as an array",
+                        "schema": {
+                            "$ref": "#/definitions/GetAllProducts"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Product properties",
+                        "required": false,
+                        "schema": {
+                            "properties": {
+                                "icon_id": {
+                                    "type": "integer"
+                                },
+                                "name": {
+                                    "type": "string"
+                                },
+                                "price": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Creates new product",
+                        "schema": {
+                            "$ref": "#/definitions/createProduct"
+                        }
+                    }
+                }
+            }
+        },
+        "/products/{product_id}": {
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "product ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Properties to update",
+                        "required": false,
+                        "schema": {
+                            "properties": {
+                                "icon_id": {
+                                    "type": "integer"
+                                },
+                                "name": {
+                                    "type": "string"
+                                },
+                                "price": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Updates chosen product",
+                        "schema": {
+                            "$ref": "#/definitions/genericOkResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "product ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete chosen product",
+                        "schema": {
+                            "$ref": "#/definitions/genericOkResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -178,33 +292,35 @@
         "LocationByCode": {
             "properties": {
                 "products": {
-                    "properties": {
-                        "id": {
-                            "type": "string"
-                        },
-                        "icon_name": {
-                            "type": "string"
-                        },
-                        "icon_id": {
-                            "type": "integer"
-                        },
-                        "price": {
-                            "type": "integer"
-                        },
-                        "products_in_list": {
-                            "type": "integer"
-                        },
-                        "products_in_payment": {
-                            "type": "integer"
-                        },
-                        "created_at": {
-                            "type": "string"
-                        },
-                        "updated_at": {
-                            "type": "string"
+                    "type": "array",
+                    "items": {
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "icon_name": {
+                                "type": "string"
+                            },
+                            "icon_id": {
+                                "type": "integer"
+                            },
+                            "price": {
+                                "type": "integer"
+                            },
+                            "products_in_list": {
+                                "type": "integer"
+                            },
+                            "products_in_payment": {
+                                "type": "integer"
+                            },
+                            "created_at": {
+                                "type": "string"
+                            },
+                            "updated_at": {
+                                "type": "string"
+                            }
                         }
-                    },
-                    "type": "object"
+                    }
                 },
                 "location": {
                     "properties": {
@@ -279,6 +395,64 @@
                 },
                 "total_payed": {
                     "type": "string"
+                }
+            }
+        },
+        "createProduct": {
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "icon_name": {
+                    "type": "string"
+                },
+                "icon_id": {
+                    "type": "integer"
+                },
+                "price": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "genericOkResponse": {
+            "properties": {
+                "ok": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "GetAllProducts": {
+            "properties": {
+                "products": {
+                    "type": "array",
+                    "items": {
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "icon_name": {
+                                "type": "string"
+                            },
+                            "icon_id": {
+                                "type": "integer"
+                            },
+                            "price": {
+                                "type": "integer"
+                            },
+                            "created_at": {
+                                "type": "string"
+                            },
+                            "updated_at": {
+                                "type": "string"
+                            }
+                        }
+                    }
                 }
             }
         }
