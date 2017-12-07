@@ -18,6 +18,18 @@ class ProductService extends Service
         $this->locationsRepository = $locationsRepository;
     }
 
+    /**
+     * @SWG\Definition(
+     * 		definition="createProduct",
+     *          @SWG\Property(property="id", type="string"),
+     *          @SWG\Property(property="icon_name", type="string"),
+     *          @SWG\Property(property="icon_id", type="integer"),
+     *          @SWG\Property(property="price", type="integer"),
+     *          @SWG\Property(property="created_at", type="string"),
+     *          @SWG\Property(property="updated_at", type="string"),
+     *    ),
+     * )
+     */
     public function create($body)
     {
         $body = $this->getBody($body);
@@ -25,6 +37,12 @@ class ProductService extends Service
         return $this->productRepository->create($body);
     }
 
+    /**
+     * @SWG\Definition(
+     * 		definition="genericOkResponse",
+     *    @SWG\Property(property="ok", type="boolean")
+     * )
+     */
     public function update($productId, $body)
     {
         $body = $this->getBody($body);
@@ -32,6 +50,20 @@ class ProductService extends Service
         return $this->productRepository->update($productId, $body);
     }
 
+    /**
+     * @SWG\Definition(
+     * 		definition="GetAllProducts",
+     *    @SWG\Property(property="products", type="array", @SWG\Items(
+     *          @SWG\Property(property="id", type="string"),
+     *          @SWG\Property(property="icon_name", type="string"),
+     *          @SWG\Property(property="icon_id", type="integer"),
+     *          @SWG\Property(property="price", type="integer"),
+     *          @SWG\Property(property="created_at", type="string"),
+     *          @SWG\Property(property="updated_at", type="string"),
+     *      )
+     *    ),
+     * )
+     */
     public function getAll()
     {
         return $this->productRepository->getAll();

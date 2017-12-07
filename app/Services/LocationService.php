@@ -18,7 +18,7 @@ class LocationService extends Service
     /**
      * @SWG\Definition(
      * 		definition="LocationByCode",
-     *    @SWG\Property(property="products", type="object",
+     *    @SWG\Property(property="products", type="array", @SWG\Items(
      *          @SWG\Property(property="id", type="string"),
      *          @SWG\Property(property="icon_name", type="string"),
      *          @SWG\Property(property="icon_id", type="integer"),
@@ -27,6 +27,7 @@ class LocationService extends Service
      *          @SWG\Property(property="products_in_payment", type="integer"),
      *          @SWG\Property(property="created_at", type="string"),
      *          @SWG\Property(property="updated_at", type="string"),
+     *      )
      *    ),
      *    @SWG\Property(property="location", type="object",
      *          @SWG\Property(property="id", type="string"),
