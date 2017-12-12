@@ -8,6 +8,12 @@ class Service
 {
     public $client;
 
+    /**
+     * @SWG\Definition(
+     * 		definition="genericOkResponse",
+     *    @SWG\Property(property="ok", type="boolean")
+     * )
+     */
     public function __construct()
     {
         $this->client = new Client();
@@ -16,7 +22,7 @@ class Service
     public function getBody(\Illuminate\Http\Request $body)
     {
       if (empty($body->all())) {
-          throw new \Exception("Body empty.", 400);
+          abort(400, "Body empty.");
       }
 
       return $body;

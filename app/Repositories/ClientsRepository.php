@@ -17,7 +17,7 @@ class ClientsRepository extends Repository {
         $this->clients = $clients;
     }
 
-    public function saveClientsArray(array $clients)
+    public function saveClientsArray(array $clients) : array
     {
         $result = [];
 

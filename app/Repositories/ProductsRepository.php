@@ -4,13 +4,14 @@ namespace App\Repositories;
 
 use App\Products;
 use Validator;
+use App\Exceptions\Handler;
 
 class ProductsRepository extends Repository {
 
     public function rules()
     {
         return [
-              'name' => 'required|max:255',
+              'name' => 'required|max:255|string',
               'price' => 'required|integer',
               'icon_id' => 'required|integer'
           ];
@@ -34,11 +35,15 @@ class ProductsRepository extends Repository {
         return Products::create($RequestProduct);
     }
 
-    public function update($productId, $RequestProduct)
+    public function update(int $productId, $RequestProduct)
     {
         $RequestProduct = $RequestProduct->all();
 
         $product = Products::find($productId);
+
+        if (empty($product)) {
+            throw new \Exception("Product with ID $productId does not exist.", 404);
+        }
 
         foreach ($RequestProduct as $key => $value) {
             if (!isset($product->$key)) {
@@ -64,7 +69,7 @@ class ProductsRepository extends Repository {
         return $products;
     }
 
-    public function delete($productId)
+    public function delete(int $productId)
     {
         $product = Products::find($productId);
 
@@ -74,5 +79,6 @@ class ProductsRepository extends Repository {
 
         return $product->delete();
     }
+
 }
 ?>
