@@ -420,13 +420,6 @@
                 }
             }
         },
-        "genericOkResponse": {
-            "properties": {
-                "ok": {
-                    "type": "boolean"
-                }
-            }
-        },
         "GetAllProducts": {
             "properties": {
                 "products": {
@@ -453,6 +446,13 @@
                             }
                         }
                     }
+                }
+            }
+        },
+        "genericOkResponse": {
+            "properties": {
+                "ok": {
+                    "type": "boolean"
                 }
             }
         }

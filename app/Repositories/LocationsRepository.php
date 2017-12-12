@@ -48,7 +48,7 @@ class LocationsRepository extends Repository {
         return $locations;
     }
 
-    public function saveClientLocationRelationshipWithEmail(array $clientsEmailAndLocationId)
+    public function saveClientLocationRelationshipWithEmail(array $clientsEmailAndLocationId) : array
     {
         $result = [];
 

@@ -32,22 +32,30 @@ class ProductService extends Service
      */
     public function create($body)
     {
-        $body = $this->getBody($body);
+        try {
 
-        return $this->productRepository->create($body);
+          return $this->productRepository->create($this->getBody($body));
+
+        } catch (Exception $e) {
+
+          report($e);
+          return $e->getMessage();
+
+        }
     }
 
-    /**
-     * @SWG\Definition(
-     * 		definition="genericOkResponse",
-     *    @SWG\Property(property="ok", type="boolean")
-     * )
-     */
-    public function update($productId, $body)
+    public function update(int $productId, $body)
     {
-        $body = $this->getBody($body);
+        try {
 
-        return $this->productRepository->update($productId, $body);
+          return $this->productRepository->update($productId, $this->getBody($body));
+
+        } catch (Exception $e) {
+
+          report($e);
+          return $e->getMessage();
+
+        }
     }
 
     /**
@@ -66,12 +74,30 @@ class ProductService extends Service
      */
     public function getAll()
     {
-        return $this->productRepository->getAll();
+        try {
+
+          return $this->productRepository->getAll();
+
+        } catch (Exception $e) {
+
+          report($e);
+          return $e->getMessage();
+
+        }
     }
 
-    public function delete($productId)
+    public function delete(int $productId)
     {
-        return $this->productRepository->delete($productId);
+        try {
+
+          return $this->productRepository->delete($productId);
+
+        } catch (Exception $e) {
+
+          report($e);
+          return $e->getMessage();
+          
+        }
     }
 }
 
