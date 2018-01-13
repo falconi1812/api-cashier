@@ -44,6 +44,21 @@
                 }
             }
         },
+        "/icons": {
+            "get": {
+                "tags": [
+                    "Icons"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Return all icons as an array",
+                        "schema": {
+                            "$ref": "#/definitions/GetAllIcons"
+                        }
+                    }
+                }
+            }
+        },
         "/locations/{location_code}": {
             "get": {
                 "tags": [
@@ -289,6 +304,32 @@
                 }
             }
         },
+        "GetAllIcons": {
+            "properties": {
+                "icons": {
+                    "type": "array",
+                    "items": {
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "ref": {
+                                "type": "string"
+                            },
+                            "created_at": {
+                                "type": "string"
+                            },
+                            "updated_at": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "LocationByCode": {
             "properties": {
                 "products": {
@@ -403,7 +444,7 @@
                 "id": {
                     "type": "string"
                 },
-                "icon_name": {
+                "icon_ref": {
                     "type": "string"
                 },
                 "icon_id": {
@@ -429,7 +470,7 @@
                             "id": {
                                 "type": "string"
                             },
-                            "icon_name": {
+                            "icon_ref": {
                                 "type": "string"
                             },
                             "icon_id": {
@@ -461,6 +502,10 @@
         {
             "name": "Clients",
             "description": "Everything about your daily clients"
+        },
+        {
+            "name": "Icons",
+            "description": "Catalog of icons available"
         },
         {
             "name": "Locations",

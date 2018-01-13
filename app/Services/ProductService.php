@@ -22,7 +22,7 @@ class ProductService extends Service
      * @SWG\Definition(
      * 		definition="createProduct",
      *          @SWG\Property(property="id", type="string"),
-     *          @SWG\Property(property="icon_name", type="string"),
+     *          @SWG\Property(property="icon_ref", type="string"),
      *          @SWG\Property(property="icon_id", type="integer"),
      *          @SWG\Property(property="price", type="integer"),
      *          @SWG\Property(property="created_at", type="string"),
@@ -63,7 +63,7 @@ class ProductService extends Service
      * 		definition="GetAllProducts",
      *    @SWG\Property(property="products", type="array", @SWG\Items(
      *          @SWG\Property(property="id", type="string"),
-     *          @SWG\Property(property="icon_name", type="string"),
+     *          @SWG\Property(property="icon_ref", type="string"),
      *          @SWG\Property(property="icon_id", type="integer"),
      *          @SWG\Property(property="price", type="integer"),
      *          @SWG\Property(property="created_at", type="string"),
@@ -96,7 +96,7 @@ class ProductService extends Service
 
           report($e);
           return $e->getMessage();
-          
+
         }
     }
 }

@@ -134,12 +134,12 @@ class LocationsRepository extends Repository {
       foreach ($allProducts as &$product) {
         $product->products_in_list = 0;
         $product->products_in_payment = 0;
-        $product->icon_name = $product->icon->name;
+        $product->icon_ref = $product->icon->ref;
         foreach ($products as $singleProduct) {
           if ($product->id === $singleProduct->product_id) {
               $product->products_in_list = $singleProduct->products_in_list;
               $product->products_in_payment = $singleProduct->products_in_payment;
-              $product->icon_name = $singleProduct->product->icon->name;
+              $product->icon_ref = $singleProduct->product->icon->ref;
           }
         }
         unset($product->icon);
