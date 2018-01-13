@@ -60,7 +60,7 @@ class ProductsRepository extends Repository {
         $products = Products::with('icon')->get();
 
         foreach ($products as $key => $product) {
-            $product->icon_name = $product->icon->name;
+            $product->icon_ref = $product->icon->ref;
             $product->icon_id = $product->icon->id;
 
             unset($product->icon);

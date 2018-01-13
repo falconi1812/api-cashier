@@ -17,6 +17,8 @@ Route::get('/', function () {
 
 Route::get('/clients/{date?}', 'ClientsController@getAllForToday');
 
+Route::get('/icons', 'IconsController@getAll');
+
 Route::get('/locations/{location_code}', 'LocationsController@getLocation');
 Route::put('/locations/products/{location_code}/{product_id}', 'LocationsController@setItems');
 

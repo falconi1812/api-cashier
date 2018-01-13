@@ -12,7 +12,8 @@ class Icons extends Model
      * @var array
      */
     protected $fillable = [
-        "name"
+        "name",
+        "ref"
     ];
 
     protected $guarded =[];
