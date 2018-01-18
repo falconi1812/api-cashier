@@ -7,6 +7,7 @@ use App\ClientLocations;
 use App\Clients;
 use App\LocationProducts;
 use App\Products;
+use App\Repositories\TerrainRepository;
 
 class LocationsRepository extends Repository {
 
@@ -16,11 +17,14 @@ class LocationsRepository extends Repository {
 
     private $clients;
 
-    public function __construct(Locations $locations, ClientLocations $clientLocations, Clients $clients)
+    private $terrainRepository;
+
+    public function __construct(Locations $locations, ClientLocations $clientLocations, Clients $clients, TerrainRepository $terrain)
     {
         $this->locations = $locations;
         $this->clientLocations = $clientLocations;
         $this->clients = $clients;
+        $this->terrainRepository = $terrain;
     }
 
     public function saveLocationWithClientsArray(array $clients) : array
@@ -37,7 +41,7 @@ class LocationsRepository extends Repository {
                     "hour_start" => $client->hour_start,
                     "day" => date('Y-m-d'),
                     "type_id" => 1,
-                    "terrain_id" => 1
+                    "terrain_id" => $this->terrainRepository->createIfdoesNotExist($client->terrain)
                 ]);
             }
 

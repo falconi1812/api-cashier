@@ -13,7 +13,7 @@ class TypeTableSeeder extends Seeder
     {
         DB::table('type')->insert([
             'id' => 1,
-            'name' => 'test__' . str_random(12)
+            'name' => 'Adult'
         ]);
     }
 }
