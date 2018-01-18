@@ -23,7 +23,7 @@ class TerrainTableSeeder extends Seeder
           [
             'id' => 3,
             'name' => 'Terrain S'
-          ],
+          ]
       );
     }
 }
