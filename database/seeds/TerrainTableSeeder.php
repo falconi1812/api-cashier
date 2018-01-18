@@ -11,9 +11,19 @@ class TerrainTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('terrain')->insert([
+        DB::table('terrain')->insert(
+          [
             'id' => 1,
-            'name' => 'test__' . str_random(12)
-        ]);
+            'name' => 'Terrain P'
+          ],
+          [
+            'id' => 2,
+            'name' => 'Terrain A'
+          ],
+          [
+            'id' => 3,
+            'name' => 'Terrain S'
+          ],
+      );
     }
 }
