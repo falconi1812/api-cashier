@@ -25,6 +25,7 @@ class Locations extends Migration
             $table->foreign('type_id')->references('id')->on('type');
             $table->foreign('terrain_id')->references('id')->on('terrain');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

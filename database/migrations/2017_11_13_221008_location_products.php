@@ -19,10 +19,10 @@ class LocationProducts extends Migration
             $table->integer('location_id')->unsigned();
             $table->integer('products_in_list')->default(0);
             $table->integer('products_in_payment')->default(0);
-            $table->integer('total_payed')->default(0);
             $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('location_id')->references('id')->on('locations');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

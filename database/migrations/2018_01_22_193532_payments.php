@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ClientLocations extends Migration
+class Payments extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,15 @@ class ClientLocations extends Migration
      */
     public function up()
     {
-        Schema::create('client_locations', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('client_id')->unsigned();
+            $table->integer('product_id')->unsigned();
             $table->integer('location_id')->unsigned();
-            $table->foreign('client_id')->references('id')->on('clients');
+            $table->integer('type_id')->unsigned();
+            $table->integer('quantity')->default(1);
+            $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('location_id')->references('id')->on('locations');
-            $table->date('day');
+            $table->foreign('type_id')->references('id')->on('type_payment');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -32,6 +34,6 @@ class ClientLocations extends Migration
      */
     public function down()
     {
-        Schema::drop('client_locations');
+        Schema::drop('payments');
     }
 }

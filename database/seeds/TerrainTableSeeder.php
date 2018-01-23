@@ -11,7 +11,7 @@ class TerrainTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('terrain')->insert(
+        DB::table('terrain')->insert([
           [
             'id' => 1,
             'name' => 'Terrain P'
@@ -24,6 +24,6 @@ class TerrainTableSeeder extends Seeder
             'id' => 3,
             'name' => 'Terrain S'
           ]
-      );
+      ]);
     }
 }

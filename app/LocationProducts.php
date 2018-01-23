@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LocationProducts extends Model
 {
+    use SoftDeletes;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -18,7 +21,7 @@ class LocationProducts extends Model
         "products_in_payment",
         "total_in_list",
         "total_in_payment",
-        "total_payed",
+        "total_payed"
     ];
 
     /**

@@ -12,8 +12,14 @@ class TypeTableSeeder extends Seeder
     public function run()
     {
         DB::table('type')->insert([
+          [
             'id' => 1,
             'name' => 'Adult'
+          ],
+          [
+            'id' => 2,
+            'name' => 'enfant'
+          ]
         ]);
     }
 }

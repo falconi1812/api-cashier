@@ -146,6 +146,21 @@
                 }
             }
         },
+        "/payments": {
+            "get": {
+                "tags": [
+                    "Payments"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Return all payments as an array",
+                        "schema": {
+                            "$ref": "#/definitions/GetAllIcons"
+                        }
+                    }
+                }
+            }
+        },
         "/products": {
             "get": {
                 "tags": [
@@ -439,6 +454,32 @@
                 }
             }
         },
+        "sdsf": {
+            "properties": {
+                "icons": {
+                    "type": "array",
+                    "items": {
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "ref": {
+                                "type": "string"
+                            },
+                            "created_at": {
+                                "type": "string"
+                            },
+                            "updated_at": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "createProduct": {
             "properties": {
                 "id": {
@@ -510,6 +551,10 @@
         {
             "name": "Locations",
             "description": "Terrains and clients relationship"
+        },
+        {
+            "name": "Payments",
+            "description": "Everything related with payments in a location."
         },
         {
             "name": "Products",
