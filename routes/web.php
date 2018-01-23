@@ -22,6 +22,8 @@ Route::get('/icons', 'IconsController@getAll');
 Route::get('/locations/{location_code}', 'LocationsController@getLocation');
 Route::put('/locations/products/{location_code}/{product_id}', 'LocationsController@setItems');
 
+Route::get('/payments', 'PaymentsController@readAll');
+
 Route::post('/products', 'ProductsController@create');
 Route::get('/products', 'ProductsController@read');
 Route::put('/products/{product_id}', 'ProductsController@update');

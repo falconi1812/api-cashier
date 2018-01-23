@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Locations extends Model
 {
+    use SoftDeletes;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -38,7 +41,7 @@ class Locations extends Model
     }
 
     /**
-     * Get the type record associated with the location (many-to-one table).
+     * Get the type of game record associated with the location (many-to-one table).
      */
     public function type()
     {

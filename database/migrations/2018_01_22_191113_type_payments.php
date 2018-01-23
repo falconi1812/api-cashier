@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Clients extends Migration
+class TypePayments extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class Clients extends Migration
      */
     public function up()
     {
-        Schema::create('clients', function (Blueprint $table) {
+        Schema::create('type_payment', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('last_name');
-            $table->string('email')->unique();
-            $table->string('phone');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -31,6 +28,6 @@ class Clients extends Migration
      */
     public function down()
     {
-        Schema::drop('clients');
+        Schema::drop('payments');
     }
 }

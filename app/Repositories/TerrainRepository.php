@@ -13,13 +13,7 @@ class TerrainRepository extends Repository {
 
     public function createIfdoesNotExist($terrainName)
     {
-        $terrain = Terrain::where('name', $terrainName)->first();
-
-        if (isset($terrain->id)) {
-          return $terrain->id;
-        }
-
-        $terrain = Terrain::create(['name' => $terrainName]);
+        $terrain = Terrain::firstOrCreate(['name' => $terrainName]);
 
         return $terrain->id;
     }
