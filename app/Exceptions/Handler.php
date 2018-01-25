@@ -57,6 +57,6 @@ class Handler extends ExceptionHandler
           $message = $message->toArray();
         }
 
-        return new JsonResponse($message, 200);
+        return new JsonResponse($message, $code);
     }
 }

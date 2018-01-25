@@ -23,6 +23,7 @@ Route::get('/locations/{location_code}', 'LocationsController@getLocation');
 Route::put('/locations/products/{location_code}/{product_id}', 'LocationsController@setItems');
 
 Route::get('/payments', 'PaymentsController@readAll');
+Route::put('/payments/{location_id}/{type_id}', 'PaymentsController@savePayment');
 
 Route::post('/products', 'ProductsController@create');
 Route::get('/products', 'ProductsController@read');

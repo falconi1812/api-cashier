@@ -3,15 +3,23 @@
 namespace App\Services;
 
 use App\Repositories\PaymentRepository;
+use App\Exceptions\PaymentsExceptions;
+use App\Helpers\CommonHelper;
 
 class PaymentService extends Service
 {
+
+    use CommonHelper;
+
     private $paymentsRepository;
 
-    public function __construct(PaymentRepository $paymentsRepository)
+    private $paymentsExceptions;
+
+    public function __construct(PaymentRepository $paymentsRepository, PaymentsExceptions $paymentsExceptions)
     {
         parent::__construct();
         $this->paymentsRepository = $paymentsRepository;
+        $this->paymentsExceptions = $paymentsExceptions;
     }
 
     /**
@@ -19,8 +27,9 @@ class PaymentService extends Service
      * 		definition="GetAllPayments",
      *    @SWG\Property(property="payments", type="array", @SWG\Items(
      *          @SWG\Property(property="id", type="integer"),
-     *          @SWG\Property(property="product", type="string"),
-     *          @SWG\Property(property="location", type="string"),
+     *          @SWG\Property(property="product_id", type="integer"),
+     *          @SWG\Property(property="location_id", type="integer"),
+     *          @SWG\Property(property="quantity", type="integer"),
      *          @SWG\Property(property="created_at", type="string"),
      *          @SWG\Property(property="updated_at", type="string"),
      *      )
@@ -30,21 +39,33 @@ class PaymentService extends Service
     public function getAll()
     {
       try {
+
         return $this->paymentsRepository->getAll();
+
       } catch (Exception $e) {
         report($e);
         return $e->getMessage();
       }
     }
 
-    public function processSave(int $locationId, $products)
+    public function processSave(int $locationId, int $typeId, $body)
     {
       try {
-        foreach ($products as $key => $product) {
-            $this->paymentsRepository->save($locationId, $product->id, $product->quantity);
+
+        $products = $this->getBody($body)->all();
+
+        if (!$this->is_multi_array($products)) {
+            $this->paymentsExceptions->wrongType(gettype($products));
+        }
+
+        foreach ($products as $product) {
+            $product['location_id'] = $locationId;
+            $product['type_id'] = $typeId;
+            $this->paymentsRepository->create($product);
         }
 
         return $this->paymentsRepository->findBylocation($locationId);
+
       } catch (Exception $e) {
         report($e);
         return $e->getMessage();

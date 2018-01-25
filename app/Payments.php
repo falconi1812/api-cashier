@@ -37,4 +37,17 @@ class Payments extends Model
       return $this->hasOne('App\Location', 'id', 'location_id');
   }
 
+  /**
+   * Gives all the roles for this model.
+   */
+  public function rules()
+  {
+      return [
+            'product_id' => 'required|integer',
+            'location_id' => 'required|integer',
+            'type_id' => 'required|integer',
+            'quantity' => 'integer'
+        ];
+  }
+
 }

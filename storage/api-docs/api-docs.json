@@ -155,8 +155,52 @@
                     "200": {
                         "description": "Return all payments as an array",
                         "schema": {
-                            "$ref": "#/definitions/GetAllIcons"
+                            "$ref": "#/definitions/GetAllPayments"
                         }
+                    }
+                }
+            }
+        },
+        "/payments/{location_id}/{type_id}": {
+            "put": {
+                "tags": [
+                    "Payments"
+                ],
+                "parameters": [
+                    {
+                        "name": "location_id",
+                        "in": "path",
+                        "description": "location ID",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "type_id",
+                        "in": "path",
+                        "description": "type of payment",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Payment properties",
+                        "required": false,
+                        "schema": {
+                            "properties": {
+                                "product_id": {
+                                    "type": "integer"
+                                },
+                                "quantity": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Creates new payment record"
                     }
                 }
             }
@@ -454,20 +498,23 @@
                 }
             }
         },
-        "sdsf": {
+        "GetAllPayments": {
             "properties": {
-                "icons": {
+                "payments": {
                     "type": "array",
                     "items": {
                         "properties": {
                             "id": {
                                 "type": "integer"
                             },
-                            "name": {
-                                "type": "string"
+                            "product_id": {
+                                "type": "integer"
                             },
-                            "ref": {
-                                "type": "string"
+                            "location_id": {
+                                "type": "integer"
+                            },
+                            "quantity": {
+                                "type": "integer"
                             },
                             "created_at": {
                                 "type": "string"
