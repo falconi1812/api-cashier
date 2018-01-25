@@ -13,13 +13,18 @@ interface RepositoryInterface {
 
     // public function paginate($perPage = 15, $columns = array('*'));
 
-    // public function create(array $data);
+    public function create(array $data);
 
     // public function update(array $data, $id);
 
     // public function delete($id);
 
-    public function find($id);
+    /**
+     * Find element by ID
+     *
+     * @return object
+     */
+    public function find(int $id);
 
     // public function findBy($field, $value, $columns = array('*'));
 }

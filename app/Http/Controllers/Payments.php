@@ -35,11 +35,30 @@ class PaymentsController extends Controller
         return response()->json($this->paymentService->getAll());
     }
 
-
-    public function savePayment($locationId, Request $request)
+    /**
+     * @SWG\Put(
+     *     path="/payments/{location_id}/{type_id}",
+     *     @SWG\Parameter(name="location_id", in="path", description="location ID", required=true, type="integer"),
+     *     @SWG\Parameter(name="type_id", in="path", description="type of payment", required=true, type="integer"),
+     *     @SWG\Parameter(
+     *        name="body",
+     *        in="body",
+     *        description="Payment properties",
+     *        required=false,
+     *        @SWG\Schema(
+     *            @SWG\Property(property="product_id", type="integer"),
+     *            @SWG\Property(property="quantity", type="integer"),
+     *        )
+     *      ),
+     *     @SWG\Response(
+     *          response="200",
+     *          description="Creates new payment record"),
+     *     tags={"Payments"},
+     * )
+     */
+    public function savePayment($locationId, $typeId, Request $request)
     {
-        $products = $request->all();
-        return response()->json($this->paymentService->processSave($locationId, $products));
+        return response()->json($this->paymentService->processSave($locationId, $typeId, $request));
     }
 
 }

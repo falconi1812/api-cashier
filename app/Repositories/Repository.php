@@ -2,11 +2,15 @@
 
 namespace App\Repositories;
 
+use Validator;
+
 class Repository {
+
+    public $validator;
 
     public function __construct()
     {
-        // should add something here
+        $this->validator = new Validator;
     }
 }
 
