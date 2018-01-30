@@ -8,7 +8,6 @@ use App\Helpers\CommonHelper;
 
 class PaymentService extends Service
 {
-
     use CommonHelper;
 
     private $paymentsRepository;

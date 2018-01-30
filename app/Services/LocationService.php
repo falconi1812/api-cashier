@@ -84,6 +84,13 @@ class LocationService extends Service
       return $this->locationsRepository->getProductsByCodeAndProductId($code, $product_id);
     }
 
+    public function processClose(string $code)
+    {
+        return $this->locationsRepository->removeLocation(
+                                $this->locationsRepository->getIdFromCode($code)
+                              );
+    }
+
 }
 
 ?>
