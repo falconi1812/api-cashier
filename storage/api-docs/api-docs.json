@@ -81,6 +81,28 @@
                         }
                     }
                 }
+            },
+            "delete": {
+                "tags": [
+                    "Locations"
+                ],
+                "parameters": [
+                    {
+                        "name": "location_code",
+                        "in": "path",
+                        "description": "location code. Example DUF3D92P",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Closes current location, we use logical deletes",
+                        "schema": {
+                            "$ref": "#/definitions/genericOkResponse"
+                        }
+                    }
+                }
             }
         },
         "/locations/products/{location_code}/{product_id}": {
@@ -185,14 +207,17 @@
                         "name": "body",
                         "in": "body",
                         "description": "Payment properties",
-                        "required": false,
+                        "required": true,
                         "schema": {
-                            "properties": {
-                                "product_id": {
-                                    "type": "integer"
-                                },
-                                "quantity": {
-                                    "type": "integer"
+                            "type": "array",
+                            "items": {
+                                "properties": {
+                                    "product_id": {
+                                        "type": "integer"
+                                    },
+                                    "quantity": {
+                                        "type": "integer"
+                                    }
                                 }
                             }
                         }
@@ -200,7 +225,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Creates new payment record"
+                        "description": "Creates new payment record",
+                        "schema": {
+                            "$ref": "#/definitions/GetAllPayments"
+                        }
                     }
                 }
             }

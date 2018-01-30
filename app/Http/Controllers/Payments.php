@@ -44,15 +44,17 @@ class PaymentsController extends Controller
      *        name="body",
      *        in="body",
      *        description="Payment properties",
-     *        required=false,
-     *        @SWG\Schema(
-     *            @SWG\Property(property="product_id", type="integer"),
-     *            @SWG\Property(property="quantity", type="integer"),
-     *        )
+     *        required=true,
+     *        @SWG\Property( type="array", @SWG\Items(
+     *              @SWG\Property(property="product_id", type="integer"),
+     *              @SWG\Property(property="quantity", type="integer"),
+     *          )
+     *        ),
      *      ),
      *     @SWG\Response(
      *          response="200",
-     *          description="Creates new payment record"),
+     *          description="Creates new payment record",
+     *          @SWG\Schema(ref="#/definitions/GetAllPayments")),
      *     tags={"Payments"},
      * )
      */

@@ -8,6 +8,7 @@ use App\Clients;
 use App\LocationProducts;
 use App\Products;
 use App\Repositories\TerrainRepository;
+use App\Exceptions\LocationExceptions;
 
 class LocationsRepository extends Repository {
 
@@ -19,12 +20,21 @@ class LocationsRepository extends Repository {
 
     private $terrainRepository;
 
-    public function __construct(Locations $locations, ClientLocations $clientLocations, Clients $clients, TerrainRepository $terrain)
+    private $locationException;
+
+    public function __construct(
+                          Locations $locations,
+                          ClientLocations $clientLocations,
+                          Clients $clients,
+                          TerrainRepository $terrain,
+                          LocationExceptions $locationExceptions
+                          )
     {
         $this->locations = $locations;
         $this->clientLocations = $clientLocations;
         $this->clients = $clients;
         $this->terrainRepository = $terrain;
+        $this->locationException = $locationExceptions;
     }
 
     public function saveLocationWithClientsArray(array $clients) : array
@@ -85,6 +95,10 @@ class LocationsRepository extends Repository {
     {
         $locationObject = Locations::where('code', $code)->with(['clients.client', 'products.product.icon'])->first();
 
+        if (empty($locationObject)) {
+            $this->locationException->notFound('location', $code);
+        }
+
         $locationObject->client = $locationObject->clients->client;
 
         $locationObject->allProducts = $this->getAllProductsWithIconName($locationObject->products);
@@ -121,6 +135,11 @@ class LocationsRepository extends Repository {
     public function getProductsByCodeAndProductId(string $code, int $product_id)
     {
       $locationObject = Locations::where('code', $code)->first();
+
+      if (empty($locationObject)) {
+          $this->locationException->notFound('location', $code);
+      }
+
       $products = LocationProducts::where('location_id', $locationObject->id)->where('product_id', $product_id)->first();
 
       if (empty($products)) {
@@ -150,6 +169,28 @@ class LocationsRepository extends Repository {
       }
 
       return $allProducts;
+    }
+
+    public function removeLocation(int $locationId)
+    {
+      $location = Locations::find($locationId);
+
+      if (empty($location)) {
+          $this->locationException->notFound('location', $locationId);
+      }
+
+      return $location->delete();
+    }
+
+    public function getIdFromCode(string $code)
+    {
+        $location = Locations::where('code', $code)->first();
+
+        if (empty($location)) {
+            $this->locationException->notFound('location', $locationId);
+        }
+
+        return $location->id;
     }
 }
 

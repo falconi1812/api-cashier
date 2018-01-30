@@ -69,6 +69,22 @@ class LocationsController extends Controller
         $body = $request->all();
         return response()->json($this->locationService->setItems($location_code, $product_id, $body));
     }
+
+    /**
+     * @SWG\Delete(
+     *     path="/locations/{location_code}",
+     *     @SWG\Parameter(name="location_code", in="path", description="location code. Example DUF3D92P", required=true, type="string"),
+     *     @SWG\Response(
+     *          response="200",
+     *          description="Closes current location, we use logical deletes",
+     *          @SWG\Schema(ref="#/definitions/genericOkResponse")),
+     *     tags={"Locations"},
+     * )
+     */
+    public function closeLocation($location_code)
+    {
+        return response()->json($this->locationService->processClose($location_code));
+    }
 }
 
 ?>

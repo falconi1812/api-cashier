@@ -18,4 +18,9 @@ class CommonExceptions {
         throw new $this->exception("This should not be an {$type}", 409);
     }
 
+    public function notFound($item, $id)
+    {
+        throw new $this->exception("{$item} with reference {$id} does not exist.", 404);
+    }
+
 }
