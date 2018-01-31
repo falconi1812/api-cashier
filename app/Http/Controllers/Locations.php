@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\LocationService;
+use App\Mail\SendGridSample;
+use Mail;
+use Illuminate\Mail\Message;
 
 /**
  * @SWG\Tag(
@@ -84,6 +87,46 @@ class LocationsController extends Controller
     public function closeLocation($location_code)
     {
         return response()->json($this->locationService->processClose($location_code));
+    }
+
+    /**
+     * @SWG\Get(
+     *     path="/locations",
+     *     @SWG\Response(
+     *          response="200",
+     *          description="Should return all info by a location",
+     *          @SWG\Schema(ref="#/definitions/LocationByCode")),
+     *     tags={"Locations"},
+     * )
+     */
+    public function test()
+    {
+        $data = ['message' => 'This is a test!'];
+
+        // \Mail::to('thefalcon1812@hotmail.com')->send(new SendGridSample());
+        \Mail::send('welcome', $data, function (Message $message) {
+            $message
+                ->to('thefalcon1812@hotmail.com', 'sdfsd')
+                ->from('noreply@paintballaa.com', 'bar_name')
+                ->embedData([
+                    'personalizations' => [
+                        // [
+                        //     'to' => [
+                        //         'email' => 'user2@example.com',
+                        //         'name' => 'user2',
+                        //     ],
+                        //     'substitutions' => [
+                        //         '-email-' => 'user2@example.com',
+                        //     ],
+                        // ],
+                    ],
+                    'categories' => ['user_group1'],
+                    'custom_args' => [
+                        'user_id' => "123" // Make sure this is a string value
+                    ],
+                    'template_id' => '9f01807d-28c5-42f7-9cdd-a289670db728'
+                ], 'sendgrid/x-smtpapi');
+        });
     }
 }
 
