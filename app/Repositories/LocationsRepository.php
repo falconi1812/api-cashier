@@ -41,7 +41,7 @@ class LocationsRepository extends Repository {
     {
         $locations = array_map(function($client) {
 
-            $location = Locations::where('code', $client->code_loc)->first();
+            $location = Locations::withTrashed()->where('code', $client->code_loc)->first();
 
             if (empty($location)) {
                 $location = Locations::create([
