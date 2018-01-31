@@ -168,6 +168,21 @@
                 }
             }
         },
+        "/locations": {
+            "get": {
+                "tags": [
+                    "Locations"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Should return all info by a location",
+                        "schema": {
+                            "$ref": "#/definitions/LocationByCode"
+                        }
+                    }
+                }
+            }
+        },
         "/payments": {
             "get": {
                 "tags": [

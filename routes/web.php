@@ -22,6 +22,7 @@ Route::get('/icons', 'IconsController@getAll');
 Route::get('/locations/{location_code}', 'LocationsController@getLocation');
 Route::put('/locations/products/{location_code}/{product_id}', 'LocationsController@setItems');
 Route::delete('/locations/{location_code}', 'LocationsController@closeLocation');
+Route::get('/locations', 'LocationsController@test');
 
 Route::get('/payments', 'PaymentsController@readAll');
 Route::put('/payments/{location_id}/{type_id}', 'PaymentsController@savePayment');
