@@ -98,8 +98,9 @@ class LocationService extends Service
 
         \Mail::send('welcome', $user, function ($message) use ($user) {
             $message
+                ->subject(env('COMPLETE_SELL_SUBJECT', 'PaintBall arena'))
                 ->to($user['email'], $user['name'])
-                ->from($this->mail_from_address, '')
+                ->from($this->mail_from_address, env('MAIL_FROM_NAME'))
                 ->embedData([
                     'template_id' => $this->template_id
                 ], 'sendgrid/x-smtpapi');
