@@ -41,6 +41,12 @@ class ClientsRepository extends Repository {
         return $result;
     }
 
+    public function getClientByLocationId(int $locationId)
+    {
+        $relation = $this->clientLocations::where('location_id', $locationId)->first();
+        return $this->clients->find($relation->client_id);
+    }
+
 }
 
 ?>

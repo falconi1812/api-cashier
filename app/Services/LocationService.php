@@ -4,15 +4,22 @@ namespace App\Services;
 
 use App\Locations;
 use App\Repositories\LocationsRepository as locationRepository;
+use App\Repositories\ClientsRepository;
+use Illuminate\Mail\Message;
 
 class LocationService extends Service
 {
     private $locationsRepository;
 
-    public function __construct(locationRepository $locationsRepository)
+    private $clientsRepository;
+
+    public function __construct(locationRepository $locationsRepository, ClientsRepository $ClientsRepository)
     {
         parent::__construct();
         $this->locationsRepository = $locationsRepository;
+        $this->clientsRepository = $ClientsRepository;
+        $this->template_id = env('SENDGRID_TEMPLATE_ID', null);
+        $this->mail_from_address = env('MAIL_FROM_ADDRESS', null);
     }
 
     /**
@@ -86,9 +93,19 @@ class LocationService extends Service
 
     public function processClose(string $code)
     {
-        return $this->locationsRepository->removeLocation(
-                                $this->locationsRepository->getIdFromCode($code)
-                              );
+        $locationId = $this->locationsRepository->getIdFromCode($code);
+        $user = $this->clientsRepository->getClientByLocationId($locationId)->toArray();
+
+        \Mail::send('welcome', $user, function ($message) use ($user) {
+            $message
+                ->to($user['email'], $user['name'])
+                ->from($this->mail_from_address, '')
+                ->embedData([
+                    'template_id' => $this->template_id
+                ], 'sendgrid/x-smtpapi');
+        });
+
+        return $this->locationsRepository->removeLocation($locationId);
     }
 
 }
