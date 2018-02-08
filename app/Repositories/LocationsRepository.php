@@ -192,6 +192,17 @@ class LocationsRepository extends Repository {
 
         return $location->id;
     }
+
+    public function restoreLocation(string $locationCode)
+    {
+        $location = $this->locations::where('code', $locationCode)->withTrashed()->get();
+
+        if (empty($location)) {
+            $this->locationException->notFound('location', $locationCode);
+        }
+
+        return $location[0]->restore();
+    }
 }
 
 ?>

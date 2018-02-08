@@ -152,6 +152,11 @@ class LocationService extends Service
         return $name;
     }
 
+    public function restoreLocationByCode(string $code)
+    {
+        return $this->locationsRepository->restoreLocation($code);
+    }
+
 }
 
 ?>

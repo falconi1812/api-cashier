@@ -116,6 +116,17 @@ class PaymentRepository extends Repository implements RepositoryInterface {
         return $total;
     }
 
+    public function delete(int $id)
+    {
+        $payment = $this->paymentsModel::find($id);
+
+        if (empty($payment)) {
+            $this->CommonExceptions->notFound('payment', $id);
+        }
+
+        return $payment->delete();
+    }
+
 }
 
 ?>

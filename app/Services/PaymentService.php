@@ -97,9 +97,21 @@ class PaymentService extends Service
      */
     public function findBylocation(int $locationId)
     {
+        try {
+
+          return $this->paymentsRepository->findBylocation($locationId);
+
+        } catch (Exception $e) {
+          report($e);
+          return $e->getMessage();
+        }
+    }
+
+    public function removePayment(int $paymentId)
+    {
       try {
 
-        return $this->paymentsRepository->findBylocation($locationId);
+        return $this->paymentsRepository->delete($paymentId);
 
       } catch (Exception $e) {
         report($e);

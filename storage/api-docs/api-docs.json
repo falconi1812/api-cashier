@@ -82,6 +82,28 @@
                     }
                 }
             },
+            "put": {
+                "tags": [
+                    "Locations"
+                ],
+                "parameters": [
+                    {
+                        "name": "location_code",
+                        "in": "path",
+                        "description": "location code. Example DUF3D92P",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Restores location if is deleted",
+                        "schema": {
+                            "$ref": "#/definitions/LocationByCode"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "tags": [
                     "Locations"
@@ -252,6 +274,30 @@
                         "description": "Return all payments as an array",
                         "schema": {
                             "$ref": "#/definitions/findBylocation"
+                        }
+                    }
+                }
+            }
+        },
+        "/payments/{payment_id}": {
+            "delete": {
+                "tags": [
+                    "Payments"
+                ],
+                "parameters": [
+                    {
+                        "name": "payment_id",
+                        "in": "path",
+                        "description": "payment ID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deletes payment from location",
+                        "schema": {
+                            "$ref": "#/definitions/genericOkResponse"
                         }
                     }
                 }

@@ -79,6 +79,22 @@ class PaymentsController extends Controller
        return response()->json($this->paymentService->findBylocation($locationId));
    }
 
+   /**
+    * @SWG\delete(
+    *     path="/payments/{payment_id}",
+    *     @SWG\Parameter(name="payment_id", in="path", description="payment ID", required=true, type="integer"),
+    *     @SWG\Response(
+    *          response="200",
+    *          description="Deletes payment from location",
+    *          @SWG\Schema(ref="#/definitions/genericOkResponse")),
+    *     tags={"Payments"},
+    * )
+    */
+   public function removePayment($paymentId)
+   {
+        return response()->json($this->paymentService->removePayment($paymentId));
+   }
+
 }
 
 ?>
