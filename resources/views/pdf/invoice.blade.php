@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice</title>
-    <style>
+    <style type="text/css">
         p {
           color: #888;
         }
@@ -20,6 +20,19 @@
 
         h1 {
             font-size: 60px;
+        }
+
+        hr {
+          -moz-border-bottom-colors: none;
+          -moz-border-image: none;
+          -moz-border-left-colors: none;
+          -moz-border-right-colors: none;
+          -moz-border-top-colors: none;
+          border-color: #EEEEEE -moz-use-text-color #FFFFFF;
+          border-style: solid none;
+          border-width: 1px 0;
+          margin: 18px 0;
+          width: 100%;
         }
 
         .menu {
@@ -88,6 +101,16 @@
           padding: 15px;
           vertical-align: top;
         }
+
+        .page-break {
+          overflow: hidden;
+          page-break-after: always;
+          page-break-inside: avoid;
+        }
+
+        .mid-screen {
+          width: 100% !important;
+        }
     </style>
 </head>
 
@@ -142,13 +165,30 @@
             <th class="align-right">MONTANT</th>
         </tr>
 
-        @foreach ($payments as $payment)
-          <tr>
-              <td class="align-left">{{ $payment->quantity }}</td>
-              <td class="align-center">{{ $payment->product->name }}</td>
-              <td class="align-right">{{ $payment->product->price }}.- </td>
-              <td class="align-right">{{ $payment->product->price * $payment->quantity }} .- </td>
-          </tr>
+        @foreach ($pays as $key => $payments)
+            @foreach ($payments as $payment)
+              @if (!is_null($payment['total_quantity']))
+                <tr>
+                    <td class="align-left">{{ $payment['total_quantity'] }}</td>
+                    <td class="align-center">{{ $payment['product']['name'] }}</td>
+                    <td class="align-right">{{ $payment['product']['price'] }}.- </td>
+                    <td class="align-right">{{ $payment['total'] }} .- </td>
+                </tr>
+              @endif
+
+              @if ($loop->last)
+                <tr class="align-right">
+                  <td class="align-left"></td>
+                  <td class="align-center"></td>
+                  <td class="align-right">
+                      <h4>Subtotal</h4>
+                  </td>
+                  <td class="align-right">
+                      <h4>{{ $payments['sub_total'] }} .- </h4>
+                  </td>
+                </tr>
+              @endif
+            @endforeach
         @endforeach
 
     </table>
@@ -158,20 +198,19 @@
             <td class="align-right">
                 <h2>Total</h2>
             </td>
-            <td class="align-right"><h2> 4000  .-</h2></td>
+            <td class="align-right"><h2> {{ $total }}  .-</h2></td>
         </tr>
     </table>
 
     <table class="footer">
         <tr>
             <td>
-                <p>Rue du Borget 7
-                    <br>
-                    <br> 1377 Oulens-sous-Echallen</p>
+                <p>Rue du Borget 7, 1377 Oulens-sous-Echallen</p>
             </td>
+        </tr>
+        <tr>
             <td>
                 <p>inscription@paintballarea.ch
-                    <br>
                     <br>
                         077 415 30 02
                 </p>
