@@ -602,6 +602,35 @@
                             },
                             "updated_at": {
                                 "type": "string"
+                            },
+                            "products": {
+                                "properties": {
+                                    "id": {
+                                        "type": "string"
+                                    },
+                                    "icon_name": {
+                                        "type": "string"
+                                    },
+                                    "icon_id": {
+                                        "type": "integer"
+                                    },
+                                    "price": {
+                                        "type": "integer"
+                                    },
+                                    "products_in_list": {
+                                        "type": "integer"
+                                    },
+                                    "products_in_payment": {
+                                        "type": "integer"
+                                    },
+                                    "created_at": {
+                                        "type": "string"
+                                    },
+                                    "updated_at": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
                             }
                         }
                     }
