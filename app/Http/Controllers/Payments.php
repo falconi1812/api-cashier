@@ -63,6 +63,22 @@ class PaymentsController extends Controller
         return response()->json($this->paymentService->processSave($locationId, $typeId, $request));
     }
 
+    /**
+     * @SWG\Get(
+     *     path="/payments/{location_id}",
+     *     @SWG\Parameter(name="location_id", in="path", description="location ID", required=true, type="integer"),
+     *     @SWG\Response(
+     *          response="200",
+     *          description="Return all payments as an array",
+     *          @SWG\Schema(ref="#/definitions/findBylocation")),
+     *     tags={"Payments"},
+     * )
+     */
+   public function findBylocation($locationId)
+   {
+       return response()->json($this->paymentService->findBylocation($locationId));
+   }
+
 }
 
 ?>

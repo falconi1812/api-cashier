@@ -25,6 +25,7 @@ Route::delete('/locations/{location_code}', 'LocationsController@closeLocation')
 Route::get('/locations', 'LocationsController@test');
 
 Route::get('/payments', 'PaymentsController@readAll');
+Route::get('/payments/{location_id}', 'PaymentsController@findBylocation');
 Route::put('/payments/{location_id}/{type_id}', 'PaymentsController@savePayment');
 
 Route::post('/products', 'ProductsController@create');

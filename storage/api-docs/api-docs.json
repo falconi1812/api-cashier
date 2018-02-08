@@ -168,21 +168,6 @@
                 }
             }
         },
-        "/locations": {
-            "get": {
-                "tags": [
-                    "Locations"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Should return all info by a location",
-                        "schema": {
-                            "$ref": "#/definitions/LocationByCode"
-                        }
-                    }
-                }
-            }
-        },
         "/payments": {
             "get": {
                 "tags": [
@@ -243,6 +228,30 @@
                         "description": "Creates new payment record",
                         "schema": {
                             "$ref": "#/definitions/GetAllPayments"
+                        }
+                    }
+                }
+            }
+        },
+        "/payments/{location_id}": {
+            "get": {
+                "tags": [
+                    "Payments"
+                ],
+                "parameters": [
+                    {
+                        "name": "location_id",
+                        "in": "path",
+                        "description": "location ID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Return all payments as an array",
+                        "schema": {
+                            "$ref": "#/definitions/findBylocation"
                         }
                     }
                 }
@@ -542,6 +551,35 @@
             }
         },
         "GetAllPayments": {
+            "properties": {
+                "payments": {
+                    "type": "array",
+                    "items": {
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "product_id": {
+                                "type": "integer"
+                            },
+                            "location_id": {
+                                "type": "integer"
+                            },
+                            "quantity": {
+                                "type": "integer"
+                            },
+                            "created_at": {
+                                "type": "string"
+                            },
+                            "updated_at": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "findBylocation": {
             "properties": {
                 "payments": {
                     "type": "array",

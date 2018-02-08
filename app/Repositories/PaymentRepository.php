@@ -35,7 +35,11 @@ class PaymentRepository extends Repository implements RepositoryInterface {
 
     public function findBylocation(int $locationId)
     {
-        return $this->paymentsModel::where('location_id', $locationId)->get();
+        return $this->paymentsModel::where('location_id', $locationId)
+                    ->with(['product' => function($query) {
+                        $query->withTrashed();
+                    }])
+                    ->get();
     }
 
     public function validate($payment)
@@ -45,6 +49,59 @@ class PaymentRepository extends Repository implements RepositoryInterface {
       if ($isObjectValid->fails()) {
         throw new \Exception($isObjectValid->errors()->first(), 409);
       }
+    }
+
+    public function groupProductsByType($payments, $typeId)
+    {
+        $groupedProducts = [];
+        foreach ($payments as $key => $payment) {
+            if ($typeId == $payment->type_id) {
+                array_push($groupedProducts, $payment);
+            }
+        }
+
+        return $groupedProducts;
+    }
+
+    public function groupProductsById($payments, $productId)
+    {
+        $groupedProducts = [];
+        $total = 0;
+        foreach ($payments as $key => $payment) {
+            if ($productId == $payment->product_id) {
+                $total += $payment->quantity;
+            }
+        }
+
+        return ['total' => $total, 'id' => $productId];
+    }
+
+    public function groupForInvoice($payments, $typeId)
+    {
+        $groupedProducts = [];
+
+        $result = [];
+
+        $totals = [];
+
+        $groupedProducts = $this->groupProductsByType($payments, $typeId);
+
+        foreach ($groupedProducts as $payment) {
+            if (!in_array($payment->product->id, array_column($totals, 'id'))) {
+                array_push($totals, $this->groupProductsById($groupedProducts, $payment->product->id));
+            }
+        }
+
+        foreach ($totals as $total) {
+            foreach ($payments as $payment) {
+                if ($payment->product->id == $total['id'] && !in_array($payment->product->id, array_column($result, 'id'))) {
+                    array_push($result , ['total' => $payment->product->price * $total['total'], 'id' => $payment->product->id, 'product' => $payment->product]);
+                }
+            }
+
+        }
+
+        return $result;
     }
 
 }
