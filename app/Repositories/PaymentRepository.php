@@ -95,13 +95,25 @@ class PaymentRepository extends Repository implements RepositoryInterface {
         foreach ($totals as $total) {
             foreach ($payments as $payment) {
                 if ($payment->product->id == $total['id'] && !in_array($payment->product->id, array_column($result, 'id'))) {
-                    array_push($result , ['total' => $payment->product->price * $total['total'], 'id' => $payment->product->id, 'product' => $payment->product]);
+                    array_push($result , ['total' => $payment->product->price * $total['total'],
+                                          'id' => $payment->product->id, 'product' => $payment->product,
+                                          'total_quantity' => $total['total']
+                                        ]);
                 }
             }
-
         }
 
         return $result;
+    }
+
+    public function getTotalForInvoice($payments)
+    {
+        $total = 0;
+        foreach ($payments as $key => $payment) {
+            $total += $payment['total'];
+        }
+
+        return $total;
     }
 
 }

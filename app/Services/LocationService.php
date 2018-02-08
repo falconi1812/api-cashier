@@ -108,9 +108,8 @@ class LocationService extends Service
         $payments = $this->paymentsRepository->findBylocation($locationId);
 
         $attachment = $this->composeInvoice($locationObject, $user, $payments);
-        return $attachment;
 
-        Mail::send('welcome', $user, function ($message) use ($user ,$attachment, $name) {
+        Mail::send('welcome', $user, function ($message) use ($user ,$attachment) {
             $message
                 ->subject(env('COMPLETE_SELL_SUBJECT', 'PaintBall arena'))
                 ->to(env('TO_TEST_EMAIL', $user['email']), $user['name'])
@@ -126,12 +125,27 @@ class LocationService extends Service
 
     public function composeInvoice($locationObject, $user, $payments)
     {
-        $allForCard = $this->paymentsRepository->groupForInvoice($payments, 1);
-        $allForCash = $this->paymentsRepository->groupForInvoice($payments, 2);
+        $allProductsForCard = $this->paymentsRepository->groupForInvoice($payments, 1);
+        $allProductsForCash = $this->paymentsRepository->groupForInvoice($payments, 2);
+
+        $allProductsForCard['sub_total'] = $this->paymentsRepository->getTotalForInvoice($allProductsForCard);
+        $allProductsForCash['sub_total'] = $this->paymentsRepository->getTotalForInvoice($allProductsForCash);
+
+        $pays = [
+                  'allProductsForCard' => $allProductsForCard,
+                  'allProductsForCash' => $allProductsForCash
+                ];
+
+        $total = $allProductsForCard['sub_total'] + $allProductsForCash['sub_total'];
 
         $name = $this->createDir($this->createName($user['name'], '_', $locationObject->code, '_', time()));
 
-        $attachment = PDF::loadView('pdf.invoice', compact('locationObject', 'payments', 'allForCard', 'allForCash'));
+        $attachment = PDF::loadView('pdf.invoice', compact(
+                                                            'locationObject',
+                                                            'pays',
+                                                            'total'
+                                                            )
+                                                        );
 
         $attachment->save($name);
 
