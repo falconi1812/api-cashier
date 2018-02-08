@@ -5,21 +5,28 @@ namespace App\Services;
 use App\Locations;
 use App\Repositories\LocationsRepository as locationRepository;
 use App\Repositories\ClientsRepository;
+use App\Repositories\PaymentRepository;
 use Illuminate\Mail\Message;
 use PDF;
 use Mail;
+use App\Helpers\PDFHelper;
 
 class LocationService extends Service
 {
+    use PDFHelper;
+
     private $locationsRepository;
 
     private $clientsRepository;
 
-    public function __construct(locationRepository $locationsRepository, ClientsRepository $ClientsRepository)
+    private $paymentsRepository;
+
+    public function __construct(locationRepository $locationsRepository, ClientsRepository $ClientsRepository, PaymentRepository $paymentsRepository)
     {
         parent::__construct();
         $this->locationsRepository = $locationsRepository;
         $this->clientsRepository = $ClientsRepository;
+        $this->paymentsRepository = $paymentsRepository;
         $this->template_id = env('SENDGRID_TEMPLATE_ID', null);
         $this->mail_from_address = env('MAIL_FROM_ADDRESS', 'noreply@paintballarena.ch');
     }
@@ -98,29 +105,37 @@ class LocationService extends Service
         $locationId = $this->locationsRepository->getIdFromCode($code);
         $user = $this->clientsRepository->getClientByLocationId($locationId)->toArray();
         $locationObject = $this->locationsRepository->getAllIncludingClientByCode($code);
+        $payments = $this->paymentsRepository->findBylocation($locationId);
 
-        // var_dump($locationObject);die;
-
-        $data = ['user' => $user, 'location' => $locationObject];
-
-        $attachment = PDF::loadView('pdf.invoice', compact('locationObject'));
-
-        $name = 'tmp/githsub1111'. rand(0, 100) .'2wss.pdf';
-
-        $attachment->save($name);
+        $attachment = $this->composeInvoice($locationObject, $user, $payments);
+        return $attachment;
 
         Mail::send('welcome', $user, function ($message) use ($user ,$attachment, $name) {
             $message
                 ->subject(env('COMPLETE_SELL_SUBJECT', 'PaintBall arena'))
                 ->to(env('TO_TEST_EMAIL', $user['email']), $user['name'])
                 ->from($this->mail_from_address, env('MAIL_FROM_NAME'))
-                ->attach($name)
+                ->attach($attachment)
                 ->embedData([
                     'template_id' => $this->template_id
                 ], 'sendgrid/x-smtpapi');
         });
 
         return $this->locationsRepository->removeLocation($locationId);
+    }
+
+    public function composeInvoice($locationObject, $user, $payments)
+    {
+        $allForCard = $this->paymentsRepository->groupForInvoice($payments, 1);
+        $allForCash = $this->paymentsRepository->groupForInvoice($payments, 2);
+
+        $name = $this->createDir($this->createName($user['name'], '_', $locationObject->code, '_', time()));
+
+        $attachment = PDF::loadView('pdf.invoice', compact('locationObject', 'payments', 'allForCard', 'allForCash'));
+
+        $attachment->save($name);
+
+        return $name;
     }
 
 }

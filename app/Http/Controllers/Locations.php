@@ -86,34 +86,6 @@ class LocationsController extends Controller
         return response()->json($this->locationService->processClose($location_code));
     }
 
-    /**
-     * @SWG\Get(
-     *     path="/locations",
-     *     @SWG\Response(
-     *          response="200",
-     *          description="Should return all info by a location",
-     *          @SWG\Schema(ref="#/definitions/LocationByCode")),
-     *     tags={"Locations"},
-     * )
-     */
-    public function test()
-    {
-        return PDF::generate('http://www.github.com','tmp/github11112wss.pdf');
-        $snappy = \App::make('snappy.pdf');
-        //To file
-        $html = '<h1>Bill</h1><p>You owe me money, dude.</p>';
-        $snappy->generateFromHtml($html, 'tmp/bill-'.rand(0, 100). '123.pdf' );
-        $snappy->generate('http://www.github.com', 'tmp/github'.rand(0, 100). '.pdf');
-        //Or output:
-        return response(
-            $snappy->getOutputFromHtml($html),
-            200,
-            array(
-                'Content-Type'          => 'application/pdf',
-                'Content-Disposition'   => 'attachment; filename="file.pdf"'
-            )
-        );
-    }
 }
 
 ?>

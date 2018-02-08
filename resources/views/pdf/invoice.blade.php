@@ -142,12 +142,14 @@
             <th class="align-right">MONTANT</th>
         </tr>
 
-        <tr>
-            <td class="align-left">10</td>
-            <td class="align-center">Billes Adultes</td>
-            <td class="align-right">100 .-</td>
-            <td class="align-right">1000 .-</td>
-        </tr>
+        @foreach ($payments as $payment)
+          <tr>
+              <td class="align-left">{{ $payment->quantity }}</td>
+              <td class="align-center">{{ $payment->product->name }}</td>
+              <td class="align-right">{{ $payment->product->price }}.- </td>
+              <td class="align-right">{{ $payment->product->price * $payment->quantity }} .- </td>
+          </tr>
+        @endforeach
 
     </table>
     <table class="Content">
