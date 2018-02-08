@@ -86,6 +86,24 @@ class LocationsController extends Controller
         return response()->json($this->locationService->processClose($location_code));
     }
 
+    /**
+     * @SWG\Put(
+     *     path="/locations/{location_code}",
+     *     @SWG\Parameter(name="location_code", in="path", description="location code. Example DUF3D92P", required=true, type="string"),
+     *     @SWG\Response(
+     *          response="200",
+     *          description="Restores location if is deleted",
+     *          @SWG\Schema(ref="#/definitions/LocationByCode")),
+     *     tags={"Locations"},
+     * )
+     */
+    public function restoreLocation($location_code)
+    {
+        $this->locationService->restoreLocationByCode($location_code);
+        
+        return response()->json($this->locationService->getLocationByCode($location_code));
+    }
+
 }
 
 ?>

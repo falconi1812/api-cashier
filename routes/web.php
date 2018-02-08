@@ -22,11 +22,12 @@ Route::get('/icons', 'IconsController@getAll');
 Route::get('/locations/{location_code}', 'LocationsController@getLocation');
 Route::put('/locations/products/{location_code}/{product_id}', 'LocationsController@setItems');
 Route::delete('/locations/{location_code}', 'LocationsController@closeLocation');
-Route::get('/locations', 'LocationsController@test');
+Route::put('/locations/{location_code}', 'LocationsController@restoreLocation');
 
 Route::get('/payments', 'PaymentsController@readAll');
 Route::get('/payments/{location_id}', 'PaymentsController@findBylocation');
 Route::put('/payments/{location_id}/{type_id}', 'PaymentsController@savePayment');
+Route::delete('/payments/{payment_id}', 'PaymentsController@removePayment');
 
 Route::post('/products', 'ProductsController@create');
 Route::get('/products', 'ProductsController@read');
