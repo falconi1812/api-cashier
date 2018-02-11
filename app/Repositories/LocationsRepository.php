@@ -203,6 +203,11 @@ class LocationsRepository extends Repository {
 
         return $location[0]->restore();
     }
+
+    public function trash()
+    {
+        return $this->locations::onlyTrashed()->get();
+    }
 }
 
 ?>

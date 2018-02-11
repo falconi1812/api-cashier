@@ -157,6 +157,11 @@ class LocationService extends Service
         return $this->locationsRepository->restoreLocation($code);
     }
 
+    public function getTrash()
+    {
+        return $this->locationsRepository->trash();
+    }
+
 }
 
 ?>

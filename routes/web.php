@@ -23,6 +23,7 @@ Route::get('/locations/{location_code}', 'LocationsController@getLocation');
 Route::put('/locations/products/{location_code}/{product_id}', 'LocationsController@setItems');
 Route::delete('/locations/{location_code}', 'LocationsController@closeLocation');
 Route::put('/locations/{location_code}', 'LocationsController@restoreLocation');
+Route::get('/locations/trash', 'LocationsController@getDeletedLocations');
 
 Route::get('/payments', 'PaymentsController@readAll');
 Route::get('/payments/{location_id}', 'PaymentsController@findBylocation');

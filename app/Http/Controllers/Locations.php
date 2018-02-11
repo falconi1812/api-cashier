@@ -100,8 +100,13 @@ class LocationsController extends Controller
     public function restoreLocation($location_code)
     {
         $this->locationService->restoreLocationByCode($location_code);
-        
+
         return response()->json($this->locationService->getLocationByCode($location_code));
+    }
+
+    public function getDeletedLocations()
+    {
+        return response()->json($this->locationService->getTrash());
     }
 
 }
