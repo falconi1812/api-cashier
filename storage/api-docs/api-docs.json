@@ -192,21 +192,6 @@
                 }
             }
         },
-        "/locations/in-trash": {
-            "get": {
-                "tags": [
-                    "Locations"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Should return all locations deleted for today",
-                        "schema": {
-                            "$ref": "#/definitions/ClientsPerDay"
-                        }
-                    }
-                }
-            }
-        },
         "/locations/in-trash/{date}": {
             "get": {
                 "tags": [
