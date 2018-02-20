@@ -107,15 +107,6 @@ class LocationsController extends Controller
 
     /**
      * @SWG\Get(
-     *     path="/locations/in-trash",
-     *     @SWG\Response(
-     *          response="200",
-     *          description="Should return all locations deleted for today",
-     *          @SWG\Schema(ref="#/definitions/ClientsPerDay")),
-     *     tags={"Locations"},
-     * )
-     *
-     * @SWG\Get(
      *     path="/locations/in-trash/{date}",
      *     @SWG\Parameter(name="date", in="path", description="date format like this YYYY-MM-DD (2017-10-21)", required=true, type="string"),
      *     @SWG\Response(
