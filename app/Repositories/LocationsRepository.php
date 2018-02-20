@@ -204,9 +204,15 @@ class LocationsRepository extends Repository {
         return $location[0]->restore();
     }
 
-    public function trash()
+    public function trash($date = null)
     {
-        return $this->locations::onlyTrashed()->get();
+        $locations = $this->locations::onlyTrashed();
+
+        if (!is_null($date)) {
+            $locations->where('day', $date);
+        }
+
+        return $locations->get();
     }
 }
 
