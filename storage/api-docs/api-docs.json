@@ -82,28 +82,6 @@
                     }
                 }
             },
-            "put": {
-                "tags": [
-                    "Locations"
-                ],
-                "parameters": [
-                    {
-                        "name": "location_code",
-                        "in": "path",
-                        "description": "location code. Example DUF3D92P",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Restores location if is deleted",
-                        "schema": {
-                            "$ref": "#/definitions/LocationByCode"
-                        }
-                    }
-                }
-            },
             "delete": {
                 "tags": [
                     "Locations"
@@ -185,6 +163,69 @@
                         "description": "Should save items in the location",
                         "schema": {
                             "$ref": "#/definitions/setItemsPerLocationCode"
+                        }
+                    }
+                }
+            }
+        },
+        "/locations/in-trash/{location_code}": {
+            "put": {
+                "tags": [
+                    "Locations"
+                ],
+                "parameters": [
+                    {
+                        "name": "location_code",
+                        "in": "path",
+                        "description": "location code. Example DUF3D92P",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Restores location if is deleted",
+                        "schema": {
+                            "$ref": "#/definitions/LocationByCode"
+                        }
+                    }
+                }
+            }
+        },
+        "/locations/in-trash": {
+            "get": {
+                "tags": [
+                    "Locations"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Should return all locations deleted for today",
+                        "schema": {
+                            "$ref": "#/definitions/ClientsPerDay"
+                        }
+                    }
+                }
+            }
+        },
+        "/locations/in-trash/{date}": {
+            "get": {
+                "tags": [
+                    "Locations"
+                ],
+                "parameters": [
+                    {
+                        "name": "date",
+                        "in": "path",
+                        "description": "date format like this YYYY-MM-DD (2017-10-21)",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Should return all locations deleted that specific day",
+                        "schema": {
+                            "$ref": "#/definitions/ClientsPerDay"
                         }
                     }
                 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\LocationService;
+use App\Services\ClientService;
 
 /**
  * @SWG\Tag(
@@ -88,7 +89,7 @@ class LocationsController extends Controller
 
     /**
      * @SWG\Put(
-     *     path="/locations/{location_code}",
+     *     path="/locations/in-trash/{location_code}",
      *     @SWG\Parameter(name="location_code", in="path", description="location code. Example DUF3D92P", required=true, type="string"),
      *     @SWG\Response(
      *          response="200",
@@ -104,7 +105,27 @@ class LocationsController extends Controller
         return response()->json($this->locationService->getLocationByCode($location_code));
     }
 
-    public function getDeletedLocations()
+    /**
+     * @SWG\Get(
+     *     path="/locations/in-trash",
+     *     @SWG\Response(
+     *          response="200",
+     *          description="Should return all locations deleted for today",
+     *          @SWG\Schema(ref="#/definitions/ClientsPerDay")),
+     *     tags={"Locations"},
+     * )
+     *
+     * @SWG\Get(
+     *     path="/locations/in-trash/{date}",
+     *     @SWG\Parameter(name="date", in="path", description="date format like this YYYY-MM-DD (2017-10-21)", required=true, type="string"),
+     *     @SWG\Response(
+     *          response="200",
+     *          description="Should return all locations deleted that specific day",
+     *          @SWG\Schema(ref="#/definitions/ClientsPerDay")),
+     *     tags={"Locations"},
+     * )
+     */
+    public function getDeletedLocations($date = null)
     {
         return response()->json($this->locationService->getTrash());
     }

@@ -45,7 +45,6 @@ class ClientsController extends Controller
         return response()->json($this->clientService->getClients($date));
     }
 
-
 }
 
 ?>
