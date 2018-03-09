@@ -65,7 +65,11 @@
             "php artisan db:seed"
         ],
         "pre-install-cmd": [
-
+            "echo DB_HOST=${DB_HOST} >> .env",
+            "echo DB_DATABASE=${DB_NAME} >> .env",
+            "echo DB_PASSWORD=${DB_PASSWORD} >> .env",
+            "echo DB_USERNAME=${DB_USER} >> .env",
+            "cat .env"
         ]
     },
     "config": {
