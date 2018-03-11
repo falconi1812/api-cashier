@@ -112,6 +112,7 @@ class LocationService extends Service
         Mail::send('welcome', $user, function ($message) use ($user, $attachment) {
             $userEmail = env('TO_TEST_EMAIL', $user['email']);
             echo $userEmail;
+            echo $user['email'];
             $message
                 ->subject(env('COMPLETE_SELL_SUBJECT', 'PaintBall arena'))
                 ->to($userEmail, $user['name'])
