@@ -109,7 +109,8 @@ class LocationService extends Service
 
         $attachment = $this->composeInvoice($locationObject, $user, $payments);
 
-        Mail::send('welcome', $user, function ($message) use ($user ,$attachment) {
+        Mail::send('welcome', $user, function ($message) use ($user, $attachment) {
+            echo $user['email'];
             $message
                 ->subject(env('COMPLETE_SELL_SUBJECT', 'PaintBall arena'))
                 ->to(env('TO_TEST_EMAIL', $user['email']), $user['name'])
@@ -118,6 +119,7 @@ class LocationService extends Service
                 ->embedData([
                     'template_id' => $this->template_id
                 ], 'sendgrid/x-smtpapi');
+
         });
 
         return $this->locationsRepository->removeLocation($locationId);

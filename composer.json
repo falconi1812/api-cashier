@@ -60,9 +60,7 @@
             "chmod -R 777 .",
             "php artisan l5-swagger:publish",
             "php artisan l5-swagger:publish-config",
-            "php artisan l5-swagger:generate",
-            "php artisan migrate:fresh",
-            "php artisan db:seed"
+            "php artisan l5-swagger:generate"
         ],
         "pre-install-cmd": [
             "echo DB_HOST=${DB_HOST} >> .env",
