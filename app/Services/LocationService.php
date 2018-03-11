@@ -110,10 +110,11 @@ class LocationService extends Service
         $attachment = $this->composeInvoice($locationObject, $user, $payments);
 
         Mail::send('welcome', $user, function ($message) use ($user, $attachment) {
-            $userEmail = $user['email'];
+            $userEmail = env('TO_TEST_EMAIL', $user['email']);
+            echo $userEmail;
             $message
                 ->subject(env('COMPLETE_SELL_SUBJECT', 'PaintBall arena'))
-                ->to(env('TO_TEST_EMAIL', $userEmail), $user['name'])
+                ->to($userEmail, $user['name'])
                 ->from($this->mail_from_address, env('MAIL_FROM_NAME'))
                 ->attach($attachment)
                 ->embedData([
