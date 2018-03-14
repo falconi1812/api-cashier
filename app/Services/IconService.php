@@ -31,10 +31,14 @@ class IconService extends Service
     public function getIcons()
     {
       try {
+
         return $this->iconRepository->getAll();
+        
       } catch (Exception $e) {
+
         report($e);
         return $e->getMessage();
+
       }
     }
 

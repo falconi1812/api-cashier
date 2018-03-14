@@ -32,7 +32,10 @@ class ProductsController extends Controller
      *        @SWG\Schema(
      *            @SWG\Property(property="icon_id", type="integer"),
      *            @SWG\Property(property="name", type="string"),
-     *            @SWG\Property(property="price", type="integer")
+     *            @SWG\Property(property="price", type="integer"),
+     *            @SWG\Property(property="terrain", type="array", @SWG\Items(
+     *              @SWG\Property(property="id", type="integer")
+     *          ))
      *        )
      *      ),
      *     @SWG\Response(

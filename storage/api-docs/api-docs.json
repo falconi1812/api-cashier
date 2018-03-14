@@ -363,6 +363,16 @@
                                 },
                                 "price": {
                                     "type": "integer"
+                                },
+                                "terrain": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }

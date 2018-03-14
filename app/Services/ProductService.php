@@ -2,8 +2,9 @@
 
 namespace App\Services;
 
-use App\Repositories\ProductsRepository as productRepository;
-use App\Repositories\LocationsRepository as locationsRepository;
+use App\Repositories\ProductsRepository;
+use App\Repositories\LocationsRepository;
+use App\Repositories\ProductsPerTerrainRepository;
 
 class ProductService extends Service
 {
@@ -11,11 +12,14 @@ class ProductService extends Service
 
     private $locationsRepository;
 
-    public function __construct(productRepository $productRepository, locationsRepository $locationsRepository)
+    private $productsPerTerrainRepository;
+
+    public function __construct(ProductsRepository $productRepository, LocationsRepository $locationsRepository, ProductsPerTerrainRepository $productsPerTerrain)
     {
         parent::__construct();
         $this->productRepository = $productRepository;
         $this->locationsRepository = $locationsRepository;
+        $this->productsPerTerrainRepository = $productsPerTerrain;
     }
 
     /**
@@ -34,7 +38,19 @@ class ProductService extends Service
     {
         try {
 
-          return $this->productRepository->create($this->getBody($body));
+          $body = $this->getBody($body);
+
+          $terrains = $body['terrain'];
+
+          $product = $this->productRepository->create(array_except($body, ['terrain']));
+
+          if (!empty($terrains)) {
+              foreach ($terrains as $key => $belongs_to) {
+                  $this->productsPerTerrainRepository->create($product->id, $belongs_to['id']);
+              }
+          }
+
+          return $product;
 
         } catch (Exception $e) {
 

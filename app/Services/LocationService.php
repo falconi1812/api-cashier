@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Locations;
-use App\Repositories\LocationsRepository as locationRepository;
+use App\Repositories\LocationsRepository;
 use App\Repositories\ClientsRepository;
 use App\Repositories\PaymentRepository;
 use Illuminate\Mail\Message;
@@ -21,7 +21,7 @@ class LocationService extends Service
 
     private $paymentsRepository;
 
-    public function __construct(locationRepository $locationsRepository, ClientsRepository $ClientsRepository, PaymentRepository $paymentsRepository)
+    public function __construct(LocationsRepository $locationsRepository, ClientsRepository $ClientsRepository, PaymentRepository $paymentsRepository)
     {
         parent::__construct();
         $this->locationsRepository = $locationsRepository;
@@ -131,21 +131,13 @@ class LocationService extends Service
         $allProductsForCard['sub_total'] = $this->paymentsRepository->getTotalForInvoice($allProductsForCard);
         $allProductsForCash['sub_total'] = $this->paymentsRepository->getTotalForInvoice($allProductsForCash);
 
-        $pays = [
-                  'allProductsForCard' => $allProductsForCard,
-                  'allProductsForCash' => $allProductsForCash
-                ];
+        $pays = ['allProductsForCard' => $allProductsForCard, 'allProductsForCash' => $allProductsForCash];
 
         $total = $allProductsForCard['sub_total'] + $allProductsForCash['sub_total'];
 
         $name = $this->createDir($this->createName($user['name'], '_', $locationObject->code, '_', time()));
 
-        $attachment = PDF::loadView('pdf.invoice', compact(
-                                                            'locationObject',
-                                                            'pays',
-                                                            'total'
-                                                            )
-                                                        );
+        $attachment = PDF::loadView('pdf.invoice', compact('locationObject','pays','total'));
 
         $attachment->save($name);
 

@@ -61,8 +61,7 @@
             "php artisan l5-swagger:publish",
             "php artisan l5-swagger:publish-config",
             "php artisan l5-swagger:generate",
-            "php artisan migrate:fresh",
-            "php artisan db:seed"
+            "php artisan migrate"
         ],
         "pre-install-cmd": [
 
