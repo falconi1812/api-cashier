@@ -206,7 +206,7 @@ class LocationsRepository extends Repository {
 
     public function trash($date = null)
     {
-        $locations = $this->locations::onlyTrashed();
+        $locations = $this->locations::with(['clients.client', 'products.product.icon'])->onlyTrashed();
 
         if (!is_null($date)) {
             $locations->where('day', $date);

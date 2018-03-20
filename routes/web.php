@@ -19,11 +19,11 @@ Route::get('/clients/{date?}', 'ClientsController@getAllForToday');
 
 Route::get('/icons', 'IconsController@getAll');
 
+Route::get('/locations/in-trash/{date?}', 'LocationsController@getDeletedLocations');
+Route::put('/locations/in-trash/{location_code}', 'LocationsController@restoreLocation');
 Route::get('/locations/{location_code}', 'LocationsController@getLocation');
 Route::put('/locations/products/{location_code}/{product_id}', 'LocationsController@setItems');
 Route::delete('/locations/{location_code}', 'LocationsController@closeLocation');
-Route::put('/locations/in-trash/{location_code}', 'LocationsController@restoreLocation');
-Route::get('/locations/in-trash/{date}', 'LocationsController@getDeletedLocations');
 
 Route::get('/payments', 'PaymentsController@readAll');
 Route::get('/payments/{location_id}', 'PaymentsController@findBylocation');
