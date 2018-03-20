@@ -151,6 +151,8 @@ class LocationService extends Service
 
     public function getTrash($date = null)
     {
+        $date = is_null($date) ? date('Y-m-d') : $date;
+        
         return $this->locationsRepository->trash($date);
     }
 

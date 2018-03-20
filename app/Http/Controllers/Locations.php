@@ -115,10 +115,19 @@ class LocationsController extends Controller
      *          @SWG\Schema(ref="#/definitions/ClientsPerDay")),
      *     tags={"Locations"},
      * )
+     *
+     * @SWG\Get(
+     *     path="/locations/in-trash/",
+     *     @SWG\Response(
+     *          response="200",
+     *          description="Should return all locations deleted that specific day",
+     *          @SWG\Schema(ref="#/definitions/ClientsPerDay")),
+     *     tags={"Locations"},
+     * )
      */
     public function getDeletedLocations($date = null)
     {
-        return response()->json($this->locationService->getTrash());
+        return response()->json($this->locationService->getTrash($date));
     }
 
 }

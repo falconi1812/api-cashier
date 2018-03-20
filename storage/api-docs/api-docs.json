@@ -216,6 +216,21 @@
                 }
             }
         },
+        "/locations/in-trash/": {
+            "get": {
+                "tags": [
+                    "Locations"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Should return all locations deleted that specific day",
+                        "schema": {
+                            "$ref": "#/definitions/ClientsPerDay"
+                        }
+                    }
+                }
+            }
+        },
         "/payments": {
             "get": {
                 "tags": [
