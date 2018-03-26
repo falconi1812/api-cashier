@@ -9,6 +9,7 @@ use App\LocationProducts;
 use App\Products;
 use App\Repositories\TerrainRepository;
 use App\Exceptions\LocationExceptions;
+use App\Repositories\TypeLocationRepository;
 
 class LocationsRepository extends Repository {
 
@@ -20,6 +21,8 @@ class LocationsRepository extends Repository {
 
     private $terrainRepository;
 
+    private $typeLocationRepository;
+
     private $locationException;
 
     public function __construct(
@@ -27,6 +30,7 @@ class LocationsRepository extends Repository {
                           ClientLocations $clientLocations,
                           Clients $clients,
                           TerrainRepository $terrain,
+                          TypeLocationRepository $typeLocationRepository,
                           LocationExceptions $locationExceptions
                           )
     {
@@ -34,6 +38,7 @@ class LocationsRepository extends Repository {
         $this->clientLocations = $clientLocations;
         $this->clients = $clients;
         $this->terrainRepository = $terrain;
+        $this->typeLocationRepository = $typeLocationRepository;
         $this->locationException = $locationExceptions;
     }
 
@@ -50,7 +55,7 @@ class LocationsRepository extends Repository {
                     "hour_end" => $client->hour_end,
                     "hour_start" => $client->hour_start,
                     "day" => date('Y-m-d'),
-                    "type_id" => 1,
+                    "type_id" => $this->typeLocationRepository->createIfdoesNotExist($client->type_rental),
                     "terrain_id" => $this->terrainRepository->createIfdoesNotExist($client->terrain)
                 ]);
             }

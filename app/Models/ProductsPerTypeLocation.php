@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ProductsPerTerrain extends Model
+class ProductsPerTypeLocation extends Model
 {
     use SoftDeletes;
 
@@ -14,7 +14,7 @@ class ProductsPerTerrain extends Model
      *
      * @var string
      */
-    protected $table = 'products_per_terrain';
+    protected $table = 'products_per_type_location';
 
     /**
      * The attributes that are mass assignable.
@@ -23,7 +23,7 @@ class ProductsPerTerrain extends Model
      */
     protected $fillable = [
         "product_id",
-        "terrain_id"
+        "type_id"
     ];
 
     /**
@@ -37,8 +37,8 @@ class ProductsPerTerrain extends Model
     /**
      * Get the location record associated. (one-to-one table).
      */
-    public function terrain()
+    public function type()
     {
-        return $this->hasOne('App\Terrain', 'id', 'terrain_id');
+        return $this->hasOne('App\Type', 'id', 'type_id');
     }
 }

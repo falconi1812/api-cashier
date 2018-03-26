@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ProductsPerTerrain extends Migration
+class ProductsPerTypeLocation extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class ProductsPerTerrain extends Migration
      */
     public function up()
     {
-        Schema::create('products_per_terrain', function (Blueprint $table) {
+        Schema::create('products_per_type_location', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('product_id')->unsigned();
-            $table->integer('terrain_id')->unsigned();
+            $table->integer('type_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products');
-            $table->foreign('terrain_id')->references('id')->on('terrain');
+            $table->foreign('type_id')->references('id')->on('type');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -31,6 +31,6 @@ class ProductsPerTerrain extends Migration
      */
     public function down()
     {
-        Schema::drop('products_per_terrain');
+        Schema::drop('products_per_type_location');
     }
 }

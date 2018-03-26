@@ -379,7 +379,7 @@
                                 "price": {
                                     "type": "integer"
                                 },
-                                "terrain": {
+                                "type": {
                                     "type": "array",
                                     "items": {
                                         "properties": {
@@ -468,6 +468,66 @@
                 }
             }
         },
+        "/products/per/type/{product_id}/{type_id}": {
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "product ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "type_id",
+                        "in": "path",
+                        "description": "type of game ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Creates a new relationship, this would be filter later.",
+                        "schema": {
+                            "$ref": "#/definitions/getTypeLocationProductionRelation"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "product ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "type_id",
+                        "in": "path",
+                        "description": "type of game ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete chosen product",
+                        "schema": {
+                            "$ref": "#/definitions/genericOkResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/terrains": {
             "get": {
                 "tags": [
@@ -478,6 +538,21 @@
                         "description": "Return all terrains as an array",
                         "schema": {
                             "$ref": "#/definitions/GetAllTerrains"
+                        }
+                    }
+                }
+            }
+        },
+        "/type-of-location": {
+            "get": {
+                "tags": [
+                    "TypesLocation"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Return all types as an array",
+                        "schema": {
+                            "$ref": "#/definitions/GetAllTypes"
                         }
                     }
                 }
@@ -800,6 +875,25 @@
                 }
             }
         },
+        "getTypeLocationProductionRelation": {
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "type_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
         "genericOkResponse": {
             "properties": {
                 "ok": {
@@ -810,6 +904,29 @@
         "GetAllTerrains": {
             "properties": {
                 "terrains": {
+                    "type": "array",
+                    "items": {
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "created_at": {
+                                "type": "string"
+                            },
+                            "updated_at": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "GetAllTypes": {
+            "properties": {
+                "types": {
                     "type": "array",
                     "items": {
                         "properties": {
@@ -855,6 +972,10 @@
         {
             "name": "Terrain",
             "description": "Mostly a catalog of terrains available"
+        },
+        {
+            "name": "TypesLocation",
+            "description": "Mostly a catalog of type of game available for a location"
         }
     ]
 }

@@ -34,5 +34,9 @@ Route::post('/products', 'ProductsController@create');
 Route::get('/products', 'ProductsController@read');
 Route::put('/products/{product_id}', 'ProductsController@update');
 Route::delete('/products/{product_id}', 'ProductsController@delete');
+Route::post('/products/per/type/{product_id}/{type_id}', 'ProductsController@createProductPerType');
+Route::delete('/products/per/type/{product_id}/{type_id}', 'ProductsController@deleteProductPerType');
 
 Route::get('/terrains', 'TerrainController@read');
+
+Route::get('/type-of-location', 'TypeOfLocations@read');

@@ -33,7 +33,7 @@ class ProductsController extends Controller
      *            @SWG\Property(property="icon_id", type="integer"),
      *            @SWG\Property(property="name", type="string"),
      *            @SWG\Property(property="price", type="integer"),
-     *            @SWG\Property(property="terrain", type="array", @SWG\Items(
+     *            @SWG\Property(property="type", type="array", @SWG\Items(
      *              @SWG\Property(property="id", type="integer")
      *          ))
      *        )
@@ -106,5 +106,39 @@ class ProductsController extends Controller
     public function delete($productId)
     {
         return response()->json($this->productService->delete($productId));
+    }
+
+    /**
+     * @SWG\Delete(
+     *     path="/products/per/type/{product_id}/{type_id}",
+     *     @SWG\Parameter(name="product_id", in="path", description="product ID", required=true, type="string"),
+     *     @SWG\Parameter(name="type_id", in="path", description="type of game ID", required=true, type="string"),
+     *     @SWG\Response(
+     *          response="200",
+     *          description="Delete chosen product",
+     *          @SWG\Schema(ref="#/definitions/genericOkResponse")),
+     *     tags={"Products"},
+     * )
+     */
+    public function deleteProductPerType($productId, $terrainId)
+    {
+        return response()->json($this->productService->deleteProductPerType($productId, $terrainId));
+    }
+
+    /**
+     * @SWG\Post(
+     *     path="/products/per/type/{product_id}/{type_id}",
+     *     @SWG\Parameter(name="product_id", in="path", description="product ID", required=true, type="string"),
+     *     @SWG\Parameter(name="type_id", in="path", description="type of game ID", required=true, type="string"),
+     *     @SWG\Response(
+     *          response="200",
+     *          description="Creates a new relationship, this would be filter later.",
+     *          @SWG\Schema(ref="#/definitions/getTypeLocationProductionRelation")),
+     *     tags={"Products"},
+     * )
+     */
+    public function createProductPerType($productId, $terrainId)
+    {
+        return response()->json($this->productService->createProductPerType($productId, $terrainId));
     }
 }

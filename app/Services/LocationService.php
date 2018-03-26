@@ -6,7 +6,7 @@ use App\Locations;
 use App\Repositories\LocationsRepository;
 use App\Repositories\ClientsRepository;
 use App\Repositories\PaymentRepository;
-use App\Repositories\ProductsPerTerrainRepository;
+use App\Repositories\ProductsPerTypeLocationRepository;
 use Illuminate\Mail\Message;
 use PDF;
 use Mail;
@@ -22,20 +22,20 @@ class LocationService extends Service
 
     private $paymentsRepository;
 
-    private $productsPerTerrainRepository;
+    private $productsPerTypeLocationRepository;
 
     public function __construct(
                                   LocationsRepository $locationsRepository,
                                   ClientsRepository $ClientsRepository,
                                   PaymentRepository $paymentsRepository,
-                                  ProductsPerTerrainRepository $productsPerTerrainRepository
+                                  ProductsPerTypeLocationRepository $productsPerTypeLocationRepository
                                 )
     {
         parent::__construct();
         $this->locationsRepository = $locationsRepository;
         $this->clientsRepository = $ClientsRepository;
         $this->paymentsRepository = $paymentsRepository;
-        $this->productsPerTerrainRepository = $productsPerTerrainRepository;
+        $this->productsPerTypeLocationRepository = $productsPerTypeLocationRepository;
         $this->template_id = env('SENDGRID_TEMPLATE_ID', null);
         $this->mail_from_address = env('MAIL_FROM_ADDRESS', 'noreply@paintballarena.ch');
     }
@@ -78,7 +78,7 @@ class LocationService extends Service
     {
         $location = $this->locationsRepository->getAllIncludingClientByCode($code);
 
-        $location->allProducts = $this->productsPerTerrainRepository->filterProductsPerTerrain($location->terrain_id, array_pluck($location->allProducts, 'id'));
+        $location->allProducts = $this->productsPerTypeLocationRepository->filterProductsPerType($location->type_id, array_pluck($location->allProducts, 'id'));
 
         return [
                 'client' => $location->client,
