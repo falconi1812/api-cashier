@@ -9,9 +9,12 @@ class ProductsPerTerrainRepository extends Repository {
 
     private $productsPerTerrain;
 
-    public function __construct(ProductsPerTerrain $productsPerTerrain)
+    private $commonExceptions;
+
+    public function __construct(ProductsPerTerrain $productsPerTerrain, CommonExceptions $commonExceptions)
     {
         $this->productsPerTerrain = $productsPerTerrain;
+        $this->commonExceptions = $commonExceptions;
         parent::__construct();
     }
 
@@ -20,9 +23,25 @@ class ProductsPerTerrainRepository extends Repository {
         return $this->productsPerTerrain::all();
     }
 
-    public function create($productId, $terrainId)
+    public function create(int $productId, int $terrainId)
     {
         return $this->productsPerTerrain::create(['product_id' => $productId, 'terrain_id' => $terrainId]);
+    }
+
+    public function filterProductsPerTerrain(int $terrainId, array $productsId)
+    {
+        return $this->productsPerTerrain::whereIn('product_id', $productsId)->where('terrain_id', $terrainId)->get();
+    }
+
+    public function delete(int $productId, int $terrainId)
+    {
+        $relationship = $this->productsPerTerrain::where('terrain_id', $terrainId)->where('product_id', $productId)->first();
+
+        if (empty($relationship)) {
+            $this->commonExceptions->notFound('ProductPerTerrain', "$terrainId - $productId");
+        }
+
+        return $relationship->delete();
     }
 
 }

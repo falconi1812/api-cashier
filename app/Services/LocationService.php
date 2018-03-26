@@ -6,6 +6,7 @@ use App\Locations;
 use App\Repositories\LocationsRepository;
 use App\Repositories\ClientsRepository;
 use App\Repositories\PaymentRepository;
+use App\Repositories\ProductsPerTerrainRepository;
 use Illuminate\Mail\Message;
 use PDF;
 use Mail;
@@ -21,12 +22,20 @@ class LocationService extends Service
 
     private $paymentsRepository;
 
-    public function __construct(LocationsRepository $locationsRepository, ClientsRepository $ClientsRepository, PaymentRepository $paymentsRepository)
+    private $productsPerTerrainRepository;
+
+    public function __construct(
+                                  LocationsRepository $locationsRepository,
+                                  ClientsRepository $ClientsRepository,
+                                  PaymentRepository $paymentsRepository,
+                                  ProductsPerTerrainRepository $productsPerTerrainRepository
+                                )
     {
         parent::__construct();
         $this->locationsRepository = $locationsRepository;
         $this->clientsRepository = $ClientsRepository;
         $this->paymentsRepository = $paymentsRepository;
+        $this->productsPerTerrainRepository = $productsPerTerrainRepository;
         $this->template_id = env('SENDGRID_TEMPLATE_ID', null);
         $this->mail_from_address = env('MAIL_FROM_ADDRESS', 'noreply@paintballarena.ch');
     }
@@ -68,6 +77,8 @@ class LocationService extends Service
     public function getLocationByCode(string $code) : array
     {
         $location = $this->locationsRepository->getAllIncludingClientByCode($code);
+
+        $location->allProducts = $this->productsPerTerrainRepository->filterProductsPerTerrain($location->terrain_id, array_pluck($location->allProducts, 'id'));
 
         return [
                 'client' => $location->client,
@@ -152,7 +163,7 @@ class LocationService extends Service
     public function getTrash($date = null)
     {
         $date = is_null($date) ? date('Y-m-d') : $date;
-        
+
         return $this->locationsRepository->trash($date);
     }
 

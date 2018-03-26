@@ -60,6 +60,9 @@ class ProductService extends Service
         }
     }
 
+    /**
+    * this would have a generic response
+    */
     public function update(int $productId, $body)
     {
         try {
@@ -92,7 +95,11 @@ class ProductService extends Service
     {
         try {
 
-          return $this->productRepository->getAll();
+          $products = $this->productRepository->getAll();
+
+          $productId = array_pluck($products, 'id');
+
+          return $productId;
 
         } catch (Exception $e) {
 
@@ -102,6 +109,9 @@ class ProductService extends Service
         }
     }
 
+    /**
+    * this would have a generic response
+    */
     public function delete(int $productId)
     {
         try {
@@ -114,6 +124,14 @@ class ProductService extends Service
           return $e->getMessage();
 
         }
+    }
+
+    /**
+    * this would have a generic response
+    */
+    public function deleteProductPerTerrain(int $productId, int $terrainId)
+    {
+        return $this->productsPerTerrainRepository->delete($productId, $terrainId);
     }
 }
 
