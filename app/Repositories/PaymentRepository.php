@@ -6,21 +6,39 @@ use App\Payments;
 use App\Repositories\RepositoryInterface;
 use App\Exceptions\CommonExceptions;
 
+/**
+ * Class PaymentRepository
+ * @package App\Repositories
+ */
 class PaymentRepository extends Repository implements RepositoryInterface {
 
+    /**
+     * @var Payments
+     */
     private $paymentsModel;
 
+    /**
+     * PaymentRepository constructor.
+     * @param Payments $Payments
+     */
     public function __construct(Payments $Payments)
     {
         $this->paymentsModel = $Payments;
         parent::__construct();
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public function getAll()
     {
         return $this->paymentsModel::all();
     }
 
+    /**
+     * @param array $parameters
+     * @return mixed
+     */
     public function create(array $parameters)
     {
         $this->validate($parameters);
@@ -28,11 +46,19 @@ class PaymentRepository extends Repository implements RepositoryInterface {
         return $this->paymentsModel::create($parameters);
     }
 
+    /**
+     * @param int $id
+     * @return mixed
+     */
     public function find(int $id)
     {
         return $this->paymentsModel::find($id);
     }
 
+    /**
+     * @param int $locationId
+     * @return mixed
+     */
     public function findBylocation(int $locationId)
     {
         return $this->paymentsModel::where('location_id', $locationId)
@@ -42,6 +68,10 @@ class PaymentRepository extends Repository implements RepositoryInterface {
                     ->get();
     }
 
+    /**
+     * @param $payment
+     * @throws \Exception
+     */
     public function validate($payment)
     {
       $isObjectValid = $this->validator::make($payment, $this->paymentsModel->rules());
@@ -51,6 +81,11 @@ class PaymentRepository extends Repository implements RepositoryInterface {
       }
     }
 
+    /**
+     * @param $payments
+     * @param $typeId
+     * @return array
+     */
     public function groupProductsByType($payments, $typeId)
     {
         $groupedProducts = [];
@@ -63,6 +98,11 @@ class PaymentRepository extends Repository implements RepositoryInterface {
         return $groupedProducts;
     }
 
+    /**
+     * @param $payments
+     * @param $productId
+     * @return array
+     */
     public function groupProductsById($payments, $productId)
     {
         $groupedProducts = [];
@@ -76,6 +116,11 @@ class PaymentRepository extends Repository implements RepositoryInterface {
         return ['total' => $total, 'id' => $productId];
     }
 
+    /**
+     * @param $payments
+     * @param $typeId
+     * @return array
+     */
     public function groupForInvoice($payments, $typeId)
     {
         $groupedProducts = [];
@@ -106,6 +151,10 @@ class PaymentRepository extends Repository implements RepositoryInterface {
         return $result;
     }
 
+    /**
+     * @param $payments
+     * @return int
+     */
     public function getTotalForInvoice($payments)
     {
         $total = 0;
@@ -116,6 +165,10 @@ class PaymentRepository extends Repository implements RepositoryInterface {
         return $total;
     }
 
+    /**
+     * @param int $id
+     * @return mixed
+     */
     public function delete(int $id)
     {
         $payment = $this->paymentsModel::find($id);

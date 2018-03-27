@@ -6,8 +6,15 @@ use App\Products;
 use Validator;
 use App\Exceptions\Handler;
 
+/**
+ * Class ProductsRepository
+ * @package App\Repositories
+ */
 class ProductsRepository extends Repository {
 
+    /**
+     * @return array
+     */
     public function rules()
     {
         return [
@@ -17,6 +24,11 @@ class ProductsRepository extends Repository {
           ];
     }
 
+    /**
+     * @param $RequestProduct
+     * @return array
+     * @throws \Exception
+     */
     public function validate($RequestProduct)
     {
       $isObjectValid = Validator::make($RequestProduct->all(), $this->rules());
@@ -28,6 +40,10 @@ class ProductsRepository extends Repository {
       return array_unique($RequestProduct->all());
     }
 
+    /**
+     * @param $RequestProduct
+     * @return mixed
+     */
     public function create($RequestProduct)
     {
         $RequestProduct = $this->validate($RequestProduct);
@@ -35,6 +51,12 @@ class ProductsRepository extends Repository {
         return Products::create($RequestProduct);
     }
 
+    /**
+     * @param int $productId
+     * @param $RequestProduct
+     * @return mixed
+     * @throws \Exception
+     */
     public function update(int $productId, $RequestProduct)
     {
         $RequestProduct = $RequestProduct->all();
@@ -55,6 +77,9 @@ class ProductsRepository extends Repository {
         return $product->save();
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public function getAll()
     {
         $products = Products::with('icon')->get();
@@ -69,6 +94,11 @@ class ProductsRepository extends Repository {
         return $products;
     }
 
+    /**
+     * @param int $productId
+     * @return mixed
+     * @throws \Exception
+     */
     public function delete(int $productId)
     {
         $product = Products::find($productId);
