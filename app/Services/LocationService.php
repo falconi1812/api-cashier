@@ -122,8 +122,9 @@ class LocationService extends Service
 
         Mail::send('welcome', $user, function ($message) use ($user ,$attachment) {
             $message
-                ->subject(env('COMPLETE_SELL_SUBJECT', 'PaintBall arena'))
+                ->subject(env('COMPLETE_SELL_SUBJECT', 'PaintBall'))
                 ->to(env('TO_TEST_EMAIL', $user['email']), $user['name'])
+                ->cc(env('CC_TEST_EMAIL', 'renatomoor1@gmail.com'), $user['name'])
                 ->from($this->mail_from_address, env('MAIL_FROM_NAME'))
                 ->attach($attachment)
                 ->embedData([
