@@ -155,23 +155,17 @@ class LocationsRepository extends Repository {
       return $products;
     }
 
-    public function getAllProductsWithIconName(\Illuminate\Database\Eloquent\Collection $products) : \Illuminate\Database\Eloquent\Collection
+    public function getAllProductsWithIconName(\Illuminate\Database\Eloquent\Collection $products, array $productsId = []) : \Illuminate\Database\Eloquent\Collection
     {
-      $allProducts = Products::with(['icon'])->get();
+      $allProducts = Products::with(['icon']);
 
-      foreach ($allProducts as &$product) {
-        $product->products_in_list = 0;
-        $product->products_in_payment = 0;
-        $product->icon_ref = $product->icon->ref;
-        foreach ($products as $singleProduct) {
-          if ($product->id === $singleProduct->product_id) {
-              $product->products_in_list = $singleProduct->products_in_list;
-              $product->products_in_payment = $singleProduct->products_in_payment;
-              $product->icon_ref = $singleProduct->product->icon->ref;
-          }
-        }
-        unset($product->icon);
+      if (!empty($productsId)) {
+          $allProducts->whereIn('id', $productsId);
       }
+
+      $allProducts = $allProducts->get();
+
+      $allProducts = $this->formatProductsWithIcons($allProducts, $products);
 
       return $allProducts;
     }
@@ -218,6 +212,25 @@ class LocationsRepository extends Repository {
         }
 
         return $locations->get();
+    }
+
+    public function formatProductsWithIcons($allProducts, $products)
+    {
+        foreach ($allProducts as &$product) {
+          $product->products_in_list = 0;
+          $product->products_in_payment = 0;
+          $product->icon_ref = $product->icon->ref;
+          foreach ($products as $singleProduct) {
+            if ($product->id === $singleProduct->product_id) {
+                $product->products_in_list = $singleProduct->products_in_list;
+                $product->products_in_payment = $singleProduct->products_in_payment;
+                $product->icon_ref = $singleProduct->product->icon->ref;
+            }
+          }
+          unset($product->icon);
+        }
+
+        return $allProducts;
     }
 }
 
