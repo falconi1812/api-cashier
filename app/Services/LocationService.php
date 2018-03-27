@@ -3,9 +3,10 @@
 namespace App\Services;
 
 use App\Locations;
-use App\Repositories\LocationsRepository as locationRepository;
+use App\Repositories\LocationsRepository;
 use App\Repositories\ClientsRepository;
 use App\Repositories\PaymentRepository;
+use App\Repositories\ProductsPerTypeLocationRepository;
 use Illuminate\Mail\Message;
 use PDF;
 use Mail;
@@ -21,12 +22,20 @@ class LocationService extends Service
 
     private $paymentsRepository;
 
-    public function __construct(locationRepository $locationsRepository, ClientsRepository $ClientsRepository, PaymentRepository $paymentsRepository)
+    private $productsPerTypeLocationRepository;
+
+    public function __construct(
+                                  LocationsRepository $locationsRepository,
+                                  ClientsRepository $ClientsRepository,
+                                  PaymentRepository $paymentsRepository,
+                                  ProductsPerTypeLocationRepository $productsPerTypeLocationRepository
+                                )
     {
         parent::__construct();
         $this->locationsRepository = $locationsRepository;
         $this->clientsRepository = $ClientsRepository;
         $this->paymentsRepository = $paymentsRepository;
+        $this->productsPerTypeLocationRepository = $productsPerTypeLocationRepository;
         $this->template_id = env('SENDGRID_TEMPLATE_ID', null);
         $this->mail_from_address = env('MAIL_FROM_ADDRESS', 'noreply@paintballarena.ch');
     }
@@ -68,6 +77,10 @@ class LocationService extends Service
     public function getLocationByCode(string $code) : array
     {
         $location = $this->locationsRepository->getAllIncludingClientByCode($code);
+
+        $filterProducts = $this->productsPerTypeLocationRepository->filterProductsPerType($location->type_id, array_pluck($location->allProducts, 'id'));
+
+        $location->allProducts = $this->locationsRepository->getAllProductsWithIconName($location->allProducts, array_pluck($filterProducts, 'id'));
 
         return [
                 'client' => $location->client,
@@ -111,8 +124,9 @@ class LocationService extends Service
 
         Mail::send('welcome', $user, function ($message) use ($user ,$attachment) {
             $message
-                ->subject(env('COMPLETE_SELL_SUBJECT', 'PaintBall arena'))
+                ->subject(env('COMPLETE_SELL_SUBJECT', 'PaintBall'))
                 ->to(env('TO_TEST_EMAIL', $user['email']), $user['name'])
+                ->cc(env('CC_TEST_EMAIL', 'renatomoor1@gmail.com'), $user['name'])
                 ->from($this->mail_from_address, env('MAIL_FROM_NAME'))
                 ->attach($attachment)
                 ->embedData([
@@ -131,21 +145,13 @@ class LocationService extends Service
         $allProductsForCard['sub_total'] = $this->paymentsRepository->getTotalForInvoice($allProductsForCard);
         $allProductsForCash['sub_total'] = $this->paymentsRepository->getTotalForInvoice($allProductsForCash);
 
-        $pays = [
-                  'allProductsForCard' => $allProductsForCard,
-                  'allProductsForCash' => $allProductsForCash
-                ];
+        $pays = ['allProductsForCard' => $allProductsForCard, 'allProductsForCash' => $allProductsForCash];
 
         $total = $allProductsForCard['sub_total'] + $allProductsForCash['sub_total'];
 
         $name = $this->createDir($this->createName($user['name'], '_', $locationObject->code, '_', time()));
 
-        $attachment = PDF::loadView('pdf.invoice', compact(
-                                                            'locationObject',
-                                                            'pays',
-                                                            'total'
-                                                            )
-                                                        );
+        $attachment = PDF::loadView('pdf.invoice', compact('locationObject','pays','total'));
 
         $attachment->save($name);
 
@@ -159,6 +165,8 @@ class LocationService extends Service
 
     public function getTrash($date = null)
     {
+        $date = is_null($date) ? date('Y-m-d') : $date;
+
         return $this->locationsRepository->trash($date);
     }
 

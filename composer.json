@@ -61,8 +61,7 @@
             "php artisan l5-swagger:publish",
             "php artisan l5-swagger:publish-config",
             "php artisan l5-swagger:generate",
-            "php artisan migrate:fresh",
-            "php artisan db:seed"
+            "php artisan migrate"
         ],
         "pre-install-cmd": [
             "echo DB_HOST=${DB_HOST} >> .env",
@@ -74,6 +73,7 @@
             "echo TO_TEST_EMAIL=${TO_TEST_EMAIL} >> .env",
             "echo SENDGRID_API_KEY=${SENDGRID_API_KEY} >> .env",
             "echo SENDGRID_TEMPLATE_ID=${SENDGRID_TEMPLATE_ID} >> .env",
+            "echo CC_TEST_EMAIL=${CC_TEST_EMAIL} >> .env",
             "cat .env"
         ]
     },
