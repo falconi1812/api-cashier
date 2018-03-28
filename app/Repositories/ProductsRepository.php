@@ -82,7 +82,7 @@ class ProductsRepository extends Repository {
      */
     public function getAll()
     {
-        $products = Products::with('icon')->get();
+        $products = Products::with(['icon', 'type'])->get();
 
         foreach ($products as $key => $product) {
             $product->icon_ref = $product->icon->ref;
