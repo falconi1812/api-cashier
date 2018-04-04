@@ -78,9 +78,9 @@ class LocationService extends Service
     {
         $location = $this->locationsRepository->getAllIncludingClientByCode($code);
 
-        $filterProducts = $this->productsPerTypeLocationRepository->filterProductsPerType($location->type_id, array_pluck($location->allProducts, 'id'));
+        // $filterProducts = $this->productsPerTypeLocationRepository->filterProductsPerType($location->type_id, array_pluck($location->allProducts, 'id'));
 
-        $location->allProducts = $this->locationsRepository->getAllProductsWithIconName($location->allProducts, array_pluck($filterProducts, 'id'));
+        // $location->allProducts = $this->locationsRepository->getAllProductsWithIconName($location->allProducts, array_pluck($filterProducts, 'id'));
 
         return [
                 'client' => $location->client,
