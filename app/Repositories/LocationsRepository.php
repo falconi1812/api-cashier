@@ -9,24 +9,59 @@ use App\LocationProducts;
 use App\Products;
 use App\Repositories\TerrainRepository;
 use App\Exceptions\LocationExceptions;
+use App\Repositories\TypeLocationRepository;
 
+/**
+ * Class LocationsRepository
+ * @package App\Repositories
+ */
 class LocationsRepository extends Repository {
 
+    /**
+     * @var Locations
+     */
     private $locations;
 
+    /**
+     * @var ClientLocations
+     */
     private $clientLocations;
 
+    /**
+     * @var Clients
+     */
     private $clients;
 
+    /**
+     * @var \App\Repositories\TerrainRepository
+     */
     private $terrainRepository;
 
+    /**
+     * @var \App\Repositories\TypeLocationRepository
+     */
+    private $typeLocationRepository;
+
+    /**
+     * @var LocationExceptions
+     */
     private $locationException;
 
+    /**
+     * LocationsRepository constructor.
+     * @param Locations $locations
+     * @param ClientLocations $clientLocations
+     * @param Clients $clients
+     * @param \App\Repositories\TerrainRepository $terrain
+     * @param \App\Repositories\TypeLocationRepository $typeLocationRepository
+     * @param LocationExceptions $locationExceptions
+     */
     public function __construct(
                           Locations $locations,
                           ClientLocations $clientLocations,
                           Clients $clients,
                           TerrainRepository $terrain,
+                          TypeLocationRepository $typeLocationRepository,
                           LocationExceptions $locationExceptions
                           )
     {
@@ -34,9 +69,14 @@ class LocationsRepository extends Repository {
         $this->clientLocations = $clientLocations;
         $this->clients = $clients;
         $this->terrainRepository = $terrain;
+        $this->typeLocationRepository = $typeLocationRepository;
         $this->locationException = $locationExceptions;
     }
 
+    /**
+     * @param array $clients
+     * @return array
+     */
     public function saveLocationWithClientsArray(array $clients) : array
     {
         $locations = array_map(function($client) {
@@ -50,7 +90,7 @@ class LocationsRepository extends Repository {
                     "hour_end" => $client->hour_end,
                     "hour_start" => $client->hour_start,
                     "day" => date('Y-m-d'),
-                    "type_id" => 1,
+                    "type_id" => $this->typeLocationRepository->createIfdoesNotExist($client->type_rental),
                     "terrain_id" => $this->terrainRepository->createIfdoesNotExist($client->terrain)
                 ]);
             }
@@ -62,6 +102,11 @@ class LocationsRepository extends Repository {
         return $locations;
     }
 
+    /**
+     * @param array $clientsEmailAndLocationId
+     * @return array
+     * @throws \Exception
+     */
     public function saveClientLocationRelationshipWithEmail(array $clientsEmailAndLocationId) : array
     {
         $result = [];
@@ -80,6 +125,11 @@ class LocationsRepository extends Repository {
         return $result;
     }
 
+    /**
+     * @param int $clientId
+     * @param int $locationId
+     * @return mixed
+     */
     public function saveClientLocationRelationship(int $clientId, int $locationId)
     {
         $existRelationship = ClientLocations::where('client_id', $clientId)->where('location_id', $locationId)->first();
@@ -91,6 +141,10 @@ class LocationsRepository extends Repository {
         return ClientLocations::create(['client_id' => $clientId, 'location_id' => $locationId, 'day' => date('Y-m-d')]);
     }
 
+    /**
+     * @param string $code
+     * @return mixed
+     */
     public function getAllIncludingClientByCode(string $code)
     {
         $locationObject = Locations::where('code', $code)->with(['clients.client', 'products.product.icon'])->first();
@@ -109,6 +163,12 @@ class LocationsRepository extends Repository {
         return $locationObject;
     }
 
+    /**
+     * @param string $code
+     * @param int $product_id
+     * @param array $items
+     * @return mixed
+     */
     public function addItemsToList(string $code, int $product_id, array $items)
     {
         $products = $this->getProductsByCodeAndProductId($code, $product_id);
@@ -118,6 +178,13 @@ class LocationsRepository extends Repository {
         return $products->save();
     }
 
+    /**
+     * @param string $code
+     * @param int $product_id
+     * @param array $items
+     * @return mixed
+     * @throws \Exception
+     */
     public function removeItemsFromList(string $code, int $product_id, array $items)
     {
       $products = $this->getProductsByCodeAndProductId($code, $product_id);
@@ -132,6 +199,11 @@ class LocationsRepository extends Repository {
       return $products->save();
     }
 
+    /**
+     * @param string $code
+     * @param int $product_id
+     * @return mixed
+     */
     public function getProductsByCodeAndProductId(string $code, int $product_id)
     {
       $locationObject = Locations::where('code', $code)->first();
@@ -150,27 +222,30 @@ class LocationsRepository extends Repository {
       return $products;
     }
 
-    public function getAllProductsWithIconName(\Illuminate\Database\Eloquent\Collection $products) : \Illuminate\Database\Eloquent\Collection
+    /**
+     * @param \Illuminate\Database\Eloquent\Collection $products
+     * @param array $productsId
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getAllProductsWithIconName(\Illuminate\Database\Eloquent\Collection $products, array $productsId = []) : \Illuminate\Database\Eloquent\Collection
     {
-      $allProducts = Products::with(['icon'])->get();
+      $allProducts = Products::with(['icon']);
 
-      foreach ($allProducts as &$product) {
-        $product->products_in_list = 0;
-        $product->products_in_payment = 0;
-        $product->icon_ref = $product->icon->ref;
-        foreach ($products as $singleProduct) {
-          if ($product->id === $singleProduct->product_id) {
-              $product->products_in_list = $singleProduct->products_in_list;
-              $product->products_in_payment = $singleProduct->products_in_payment;
-              $product->icon_ref = $singleProduct->product->icon->ref;
-          }
-        }
-        unset($product->icon);
+      if (!empty($productsId)) {
+          $allProducts->whereIn('id', $productsId);
       }
+
+      $allProducts = $allProducts->get();
+
+      $allProducts = $this->formatProductsWithIcons($allProducts, $products);
 
       return $allProducts;
     }
 
+    /**
+     * @param int $locationId
+     * @return mixed
+     */
     public function removeLocation(int $locationId)
     {
       $location = Locations::find($locationId);
@@ -182,6 +257,10 @@ class LocationsRepository extends Repository {
       return $location->delete();
     }
 
+    /**
+     * @param string $code
+     * @return mixed
+     */
     public function getIdFromCode(string $code)
     {
         $location = Locations::where('code', $code)->first();
@@ -193,6 +272,10 @@ class LocationsRepository extends Repository {
         return $location->id;
     }
 
+    /**
+     * @param string $locationCode
+     * @return mixed
+     */
     public function restoreLocation(string $locationCode)
     {
         $location = $this->locations::where('code', $locationCode)->withTrashed()->get();
@@ -204,15 +287,43 @@ class LocationsRepository extends Repository {
         return $location[0]->restore();
     }
 
+    /**
+     * @param null $date
+     * @return mixed
+     */
     public function trash($date = null)
     {
-        $locations = $this->locations::onlyTrashed();
+        $locations = $this->locations::with(['clients.client', 'products.product.icon', 'type'])->onlyTrashed();
 
         if (!is_null($date)) {
             $locations->where('day', $date);
         }
 
         return $locations->get();
+    }
+
+    /**
+     * @param $allProducts
+     * @param $products
+     * @return mixed
+     */
+    public function formatProductsWithIcons($allProducts, $products)
+    {
+        foreach ($allProducts as &$product) {
+          $product->products_in_list = 0;
+          $product->products_in_payment = 0;
+          $product->icon_ref = $product->icon->ref;
+          foreach ($products as $singleProduct) {
+            if ($product->id === $singleProduct->product_id) {
+                $product->products_in_list = $singleProduct->products_in_list;
+                $product->products_in_payment = $singleProduct->products_in_payment;
+                $product->icon_ref = $singleProduct->product->icon->ref;
+            }
+          }
+          unset($product->icon);
+        }
+
+        return $allProducts;
     }
 }
 

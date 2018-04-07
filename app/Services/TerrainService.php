@@ -2,36 +2,35 @@
 
 namespace App\Services;
 
-use App\Repositories\IconsRepository as iconRepository;
+use App\Repositories\TerrainRepository;
 
-class IconService extends Service
+class TerrainService extends Service
 {
-    private $iconRepository;
+    private $terrainRepository;
 
-    public function __construct(iconRepository $iconsRepository)
+    public function __construct(TerrainRepository $terrainRepository)
     {
         parent::__construct();
-        $this->iconRepository = $iconsRepository;
+        $this->terrainRepository = $terrainRepository;
     }
 
     /**
      * @SWG\Definition(
-     * 		definition="GetAllIcons",
-     *    @SWG\Property(property="icons", type="array", @SWG\Items(
+     * 		definition="GetAllTerrains",
+     *    @SWG\Property(property="terrains", type="array", @SWG\Items(
      *          @SWG\Property(property="id", type="integer"),
      *          @SWG\Property(property="name", type="string"),
-     *          @SWG\Property(property="ref", type="string"),
      *          @SWG\Property(property="created_at", type="string"),
      *          @SWG\Property(property="updated_at", type="string"),
      *      )
      *    ),
      * )
      */
-    public function getIcons()
+    public function getAll()
     {
       try {
 
-        return $this->iconRepository->getAll();
+        return $this->terrainRepository->getAll();
 
       } catch (Exception $e) {
 

@@ -5,18 +5,37 @@ namespace App\Repositories;
 use App\ClientLocations;
 use App\Clients;
 
+/**
+ * Class ClientsRepository
+ * @package App\Repositories
+ */
 class ClientsRepository extends Repository {
 
+    /**
+     * @var ClientLocations
+     */
     private $clientLocations;
 
+    /**
+     * @var Clients
+     */
     private $clients;
 
+    /**
+     * ClientsRepository constructor.
+     * @param ClientLocations $clientLocations
+     * @param Clients $clients
+     */
     public function __construct(ClientLocations $clientLocations, Clients $clients)
     {
         $this->clientLocations = $clientLocations;
         $this->clients = $clients;
     }
 
+    /**
+     * @param array $clients
+     * @return array
+     */
     public function saveClientsArray(array $clients) : array
     {
         $result = [];
@@ -41,6 +60,10 @@ class ClientsRepository extends Repository {
         return $result;
     }
 
+    /**
+     * @param int $locationId
+     * @return mixed
+     */
     public function getClientByLocationId(int $locationId)
     {
         $relation = $this->clientLocations::where('location_id', $locationId)->first();
