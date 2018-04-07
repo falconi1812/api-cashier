@@ -17,14 +17,15 @@ class Locations extends Migration
             $table->increments('id');
             $table->string('code')->unique();
             $table->integer('players');
-            $table->integer('hour_end');
-            $table->integer('hour_start');
+            $table->string('hour_end');
+            $table->string('hour_start');
             $table->date('day');
             $table->integer('type_id')->unsigned();
             $table->integer('terrain_id')->unsigned();
             $table->foreign('type_id')->references('id')->on('type');
             $table->foreign('terrain_id')->references('id')->on('terrain');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

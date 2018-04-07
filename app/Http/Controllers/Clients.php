@@ -15,9 +15,9 @@ class ClientsController extends Controller
 {
     private $clientService;
 
-    public function __construct()
+    public function __construct(ClientService $clientService)
     {
-        $this->clientService = new ClientService();
+        $this->clientService = $clientService;
     }
 
     /**
@@ -29,9 +29,22 @@ class ClientsController extends Controller
      *          @SWG\Schema(ref="#/definitions/ClientsPerDay")),
      *     tags={"Clients"},
      * )
+     *
+     * @SWG\Get(
+     *     path="/clients/{date}",
+     *     @SWG\Parameter(name="date", in="path", description="date format like this YYYY-MM-DD (2017-10-21)", required=true, type="string"),
+     *     @SWG\Response(
+     *          response="200",
+     *          description="Should return all clients for that day",
+     *          @SWG\Schema(ref="#/definitions/ClientsPerDay")),
+     *     tags={"Clients"},
+     * )
      */
-    public function getAllForToday()
+    public function getAllForToday($date = null)
     {
-        return response()->json($this->clientService->getClients());
+        return response()->json($this->clientService->getClients($date));
     }
+
 }
+
+?>

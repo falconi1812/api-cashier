@@ -17,14 +17,12 @@ class LocationProducts extends Migration
             $table->increments('id');
             $table->integer('product_id')->unsigned();
             $table->integer('location_id')->unsigned();
-            $table->integer('products_in_list');
-            $table->integer('products_in_payment');
-            $table->integer('total_in_list');
-            $table->integer('total_in_payment');
-            $table->integer('total_payed');
+            $table->integer('products_in_list')->default(0);
+            $table->integer('products_in_payment')->default(0);
             $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('location_id')->references('id')->on('locations');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

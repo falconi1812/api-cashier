@@ -21,6 +21,7 @@ class ClientLocations extends Migration
             $table->foreign('location_id')->references('id')->on('locations');
             $table->date('day');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

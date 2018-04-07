@@ -20,6 +20,7 @@ class Products extends Migration
             $table->integer('icon_id')->unsigned();
             $table->foreign('icon_id')->references('id')->on('icons');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

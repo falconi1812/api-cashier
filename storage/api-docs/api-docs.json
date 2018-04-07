@@ -19,6 +19,544 @@
                     }
                 }
             }
+        },
+        "/clients/{date}": {
+            "get": {
+                "tags": [
+                    "Clients"
+                ],
+                "parameters": [
+                    {
+                        "name": "date",
+                        "in": "path",
+                        "description": "date format like this YYYY-MM-DD (2017-10-21)",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Should return all clients for that day",
+                        "schema": {
+                            "$ref": "#/definitions/ClientsPerDay"
+                        }
+                    }
+                }
+            }
+        },
+        "/icons": {
+            "get": {
+                "tags": [
+                    "Icons"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Return all icons as an array",
+                        "schema": {
+                            "$ref": "#/definitions/GetAllIcons"
+                        }
+                    }
+                }
+            }
+        },
+        "/locations/{location_code}": {
+            "get": {
+                "tags": [
+                    "Locations"
+                ],
+                "parameters": [
+                    {
+                        "name": "location_code",
+                        "in": "path",
+                        "description": "location code. Example: DUF3D92P",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Should return all info by a location",
+                        "schema": {
+                            "$ref": "#/definitions/LocationByCode"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Locations"
+                ],
+                "parameters": [
+                    {
+                        "name": "location_code",
+                        "in": "path",
+                        "description": "location code. Example DUF3D92P",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Closes current location, we use logical deletes",
+                        "schema": {
+                            "$ref": "#/definitions/genericOkResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/locations/products/{location_code}/{product_id}": {
+            "put": {
+                "tags": [
+                    "Locations"
+                ],
+                "parameters": [
+                    {
+                        "name": "location_code",
+                        "in": "path",
+                        "description": "location code. Example: DUF3D92P",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "product ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "List of ids",
+                        "required": false,
+                        "schema": {
+                            "properties": {
+                                "add": {
+                                    "properties": {
+                                        "products_in_list": {
+                                            "type": "integer"
+                                        },
+                                        "products_in_payment": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "remove": {
+                                    "properties": {
+                                        "products_in_list": {
+                                            "type": "integer"
+                                        },
+                                        "products_in_payment": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Should save items in the location",
+                        "schema": {
+                            "$ref": "#/definitions/setItemsPerLocationCode"
+                        }
+                    }
+                }
+            }
+        },
+        "/locations/in-trash/{location_code}": {
+            "put": {
+                "tags": [
+                    "Locations"
+                ],
+                "parameters": [
+                    {
+                        "name": "location_code",
+                        "in": "path",
+                        "description": "location code. Example DUF3D92P",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Restores location if is deleted",
+                        "schema": {
+                            "$ref": "#/definitions/LocationByCode"
+                        }
+                    }
+                }
+            }
+        },
+        "/locations/in-trash/{date}": {
+            "get": {
+                "tags": [
+                    "Locations"
+                ],
+                "parameters": [
+                    {
+                        "name": "date",
+                        "in": "path",
+                        "description": "date format like this YYYY-MM-DD (2017-10-21)",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Should return all locations deleted that specific day",
+                        "schema": {
+                            "$ref": "#/definitions/ClientsPerDay"
+                        }
+                    }
+                }
+            }
+        },
+        "/locations/in-trash/": {
+            "get": {
+                "tags": [
+                    "Locations"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Should return all locations deleted that specific day",
+                        "schema": {
+                            "$ref": "#/definitions/ClientsPerDay"
+                        }
+                    }
+                }
+            }
+        },
+        "/payments": {
+            "get": {
+                "tags": [
+                    "Payments"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Return all payments as an array",
+                        "schema": {
+                            "$ref": "#/definitions/GetAllPayments"
+                        }
+                    }
+                }
+            }
+        },
+        "/payments/{location_id}/{type_id}": {
+            "put": {
+                "tags": [
+                    "Payments"
+                ],
+                "parameters": [
+                    {
+                        "name": "location_id",
+                        "in": "path",
+                        "description": "location ID",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "type_id",
+                        "in": "path",
+                        "description": "type of payment",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Payment properties",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "properties": {
+                                    "product_id": {
+                                        "type": "integer"
+                                    },
+                                    "quantity": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Creates new payment record",
+                        "schema": {
+                            "$ref": "#/definitions/GetAllPayments"
+                        }
+                    }
+                }
+            }
+        },
+        "/payments/{location_id}": {
+            "get": {
+                "tags": [
+                    "Payments"
+                ],
+                "parameters": [
+                    {
+                        "name": "location_id",
+                        "in": "path",
+                        "description": "location ID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Return all payments as an array",
+                        "schema": {
+                            "$ref": "#/definitions/findBylocation"
+                        }
+                    }
+                }
+            }
+        },
+        "/payments/{payment_id}": {
+            "delete": {
+                "tags": [
+                    "Payments"
+                ],
+                "parameters": [
+                    {
+                        "name": "payment_id",
+                        "in": "path",
+                        "description": "payment ID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deletes payment from location",
+                        "schema": {
+                            "$ref": "#/definitions/genericOkResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Return all produtcs as an array",
+                        "schema": {
+                            "$ref": "#/definitions/GetAllProducts"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Product properties",
+                        "required": false,
+                        "schema": {
+                            "properties": {
+                                "icon_id": {
+                                    "type": "integer"
+                                },
+                                "name": {
+                                    "type": "string"
+                                },
+                                "price": {
+                                    "type": "integer"
+                                },
+                                "type": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Creates new product",
+                        "schema": {
+                            "$ref": "#/definitions/createProduct"
+                        }
+                    }
+                }
+            }
+        },
+        "/products/{product_id}": {
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "product ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Properties to update",
+                        "required": false,
+                        "schema": {
+                            "properties": {
+                                "icon_id": {
+                                    "type": "integer"
+                                },
+                                "name": {
+                                    "type": "string"
+                                },
+                                "price": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Updates chosen product",
+                        "schema": {
+                            "$ref": "#/definitions/genericOkResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "product ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete chosen product",
+                        "schema": {
+                            "$ref": "#/definitions/genericOkResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/products/per/type/{product_id}/{type_id}": {
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "product ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "type_id",
+                        "in": "path",
+                        "description": "type of game ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Creates a new relationship, this would be filter later.",
+                        "schema": {
+                            "$ref": "#/definitions/getTypeLocationProductionRelation"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "product ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "type_id",
+                        "in": "path",
+                        "description": "type of game ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Delete chosen product",
+                        "schema": {
+                            "$ref": "#/definitions/genericOkResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/terrains": {
+            "get": {
+                "tags": [
+                    "Terrain"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Return all terrains as an array",
+                        "schema": {
+                            "$ref": "#/definitions/GetAllTerrains"
+                        }
+                    }
+                }
+            }
+        },
+        "/type-of-location": {
+            "get": {
+                "tags": [
+                    "TypesLocation"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Return all types as an array",
+                        "schema": {
+                            "$ref": "#/definitions/GetAllTypes"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -63,6 +601,351 @@
                     }
                 }
             }
+        },
+        "GetAllIcons": {
+            "properties": {
+                "icons": {
+                    "type": "array",
+                    "items": {
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "ref": {
+                                "type": "string"
+                            },
+                            "created_at": {
+                                "type": "string"
+                            },
+                            "updated_at": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "LocationByCode": {
+            "properties": {
+                "products": {
+                    "type": "array",
+                    "items": {
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "icon_name": {
+                                "type": "string"
+                            },
+                            "icon_id": {
+                                "type": "integer"
+                            },
+                            "price": {
+                                "type": "integer"
+                            },
+                            "products_in_list": {
+                                "type": "integer"
+                            },
+                            "products_in_payment": {
+                                "type": "integer"
+                            },
+                            "created_at": {
+                                "type": "string"
+                            },
+                            "updated_at": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "location": {
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "code": {
+                            "type": "string"
+                        },
+                        "players": {
+                            "type": "integer"
+                        },
+                        "hour_end": {
+                            "type": "string"
+                        },
+                        "hour_start": {
+                            "type": "string"
+                        },
+                        "type_id": {
+                            "type": "integer"
+                        },
+                        "terrain_id": {
+                            "type": "integer"
+                        },
+                        "created_at": {
+                            "type": "string"
+                        },
+                        "updated_at": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "client": {
+                    "properties": {
+                        "id": {
+                            "type": "integer"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "last_name": {
+                            "type": "string"
+                        },
+                        "email": {
+                            "type": "string"
+                        },
+                        "phone": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                }
+            }
+        },
+        "setItemsPerLocationCode": {
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "product_id": {
+                    "type": "string"
+                },
+                "location_id": {
+                    "type": "string"
+                },
+                "products_in_list": {
+                    "type": "string"
+                },
+                "products_in_payment": {
+                    "type": "string"
+                },
+                "total_payed": {
+                    "type": "string"
+                }
+            }
+        },
+        "GetAllPayments": {
+            "properties": {
+                "payments": {
+                    "type": "array",
+                    "items": {
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "product_id": {
+                                "type": "integer"
+                            },
+                            "location_id": {
+                                "type": "integer"
+                            },
+                            "quantity": {
+                                "type": "integer"
+                            },
+                            "created_at": {
+                                "type": "string"
+                            },
+                            "updated_at": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "findBylocation": {
+            "properties": {
+                "payments": {
+                    "type": "array",
+                    "items": {
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "product_id": {
+                                "type": "integer"
+                            },
+                            "location_id": {
+                                "type": "integer"
+                            },
+                            "quantity": {
+                                "type": "integer"
+                            },
+                            "created_at": {
+                                "type": "string"
+                            },
+                            "updated_at": {
+                                "type": "string"
+                            },
+                            "products": {
+                                "properties": {
+                                    "id": {
+                                        "type": "string"
+                                    },
+                                    "icon_name": {
+                                        "type": "string"
+                                    },
+                                    "icon_id": {
+                                        "type": "integer"
+                                    },
+                                    "price": {
+                                        "type": "integer"
+                                    },
+                                    "products_in_list": {
+                                        "type": "integer"
+                                    },
+                                    "products_in_payment": {
+                                        "type": "integer"
+                                    },
+                                    "created_at": {
+                                        "type": "string"
+                                    },
+                                    "updated_at": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "createProduct": {
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "icon_ref": {
+                    "type": "string"
+                },
+                "icon_id": {
+                    "type": "integer"
+                },
+                "price": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "GetAllProducts": {
+            "properties": {
+                "products": {
+                    "type": "array",
+                    "items": {
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "icon_ref": {
+                                "type": "string"
+                            },
+                            "icon_id": {
+                                "type": "integer"
+                            },
+                            "price": {
+                                "type": "integer"
+                            },
+                            "created_at": {
+                                "type": "string"
+                            },
+                            "updated_at": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "getTypeLocationProductionRelation": {
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "type_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "genericOkResponse": {
+            "properties": {
+                "ok": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "GetAllTerrains": {
+            "properties": {
+                "terrains": {
+                    "type": "array",
+                    "items": {
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "created_at": {
+                                "type": "string"
+                            },
+                            "updated_at": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "GetAllTypes": {
+            "properties": {
+                "types": {
+                    "type": "array",
+                    "items": {
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "created_at": {
+                                "type": "string"
+                            },
+                            "updated_at": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "tags": [
@@ -71,8 +954,16 @@
             "description": "Everything about your daily clients"
         },
         {
+            "name": "Icons",
+            "description": "Catalog of icons available"
+        },
+        {
             "name": "Locations",
             "description": "Terrains and clients relationship"
+        },
+        {
+            "name": "Payments",
+            "description": "Everything related with payments in a location."
         },
         {
             "name": "Products",
@@ -81,6 +972,10 @@
         {
             "name": "Terrain",
             "description": "Mostly a catalog of terrains available"
+        },
+        {
+            "name": "TypesLocation",
+            "description": "Mostly a catalog of type of game available for a location"
         }
     ]
 }
