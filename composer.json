@@ -70,7 +70,6 @@
             "echo DB_USERNAME=${DB_USER} >> .env",
             "echo MAIL_USERNAME=${MAIL_USERNAME} >> .env",
             "echo MAIL_PASSWORD=${MAIL_PASSWORD} >> .env",
-            "echo TO_TEST_EMAIL=${TO_TEST_EMAIL} >> .env",
             "echo SENDGRID_API_KEY=${SENDGRID_API_KEY} >> .env",
             "echo SENDGRID_TEMPLATE_ID=${SENDGRID_TEMPLATE_ID} >> .env",
             "echo CC_TEST_EMAIL=${CC_TEST_EMAIL} >> .env",
