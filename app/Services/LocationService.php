@@ -2,12 +2,10 @@
 
 namespace App\Services;
 
-use App\Locations;
 use App\Repositories\LocationsRepository;
 use App\Repositories\ClientsRepository;
 use App\Repositories\PaymentRepository;
 use App\Repositories\ProductsPerTypeLocationRepository;
-use Illuminate\Mail\Message;
 use PDF;
 use Mail;
 use App\Helpers\PDFHelper;

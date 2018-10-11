@@ -6,7 +6,7 @@ use App\Repositories\TypeLocationRepository;
 
 class TypeLocationService extends Service
 {
-    private $typeLocationService;
+    private $typeLocationRepository;
 
     public function __construct(TypeLocationRepository $typeLocationRepository)
     {

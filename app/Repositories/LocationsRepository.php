@@ -266,7 +266,7 @@ class LocationsRepository extends Repository {
         $location = Locations::where('code', $code)->first();
 
         if (empty($location)) {
-            $this->locationException->notFound('location', $locationId);
+            $this->locationException->notFound('location', $code);
         }
 
         return $location->id;

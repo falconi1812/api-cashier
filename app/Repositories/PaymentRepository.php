@@ -105,8 +105,8 @@ class PaymentRepository extends Repository implements RepositoryInterface {
      */
     public function groupProductsById($payments, $productId)
     {
-        $groupedProducts = [];
         $total = 0;
+
         foreach ($payments as $key => $payment) {
             if ($productId == $payment->product_id) {
                 $total += $payment->quantity;
@@ -123,8 +123,6 @@ class PaymentRepository extends Repository implements RepositoryInterface {
      */
     public function groupForInvoice($payments, $typeId)
     {
-        $groupedProducts = [];
-
         $result = [];
 
         $totals = [];
