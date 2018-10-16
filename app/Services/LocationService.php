@@ -184,10 +184,6 @@ class LocationService extends Service
      */
     public function setForceItems(string $code, int $product_id, $body) : \App\LocationProducts
     {
-        if (empty($body)) {
-//            throw new CommonExceptions::EMPTY_BODY;
-        }
-
         $this->locationsRepository->replaceItemsInList($code, $product_id, $body);
 
         return $this->locationsRepository->getProductsByCodeAndProductId($code, $product_id);

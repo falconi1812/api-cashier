@@ -6,8 +6,6 @@ use Exception;
 
 class CommonExceptions extends Exception {
 
-    const EMPTY_BODY = 'Body request is empty';
-
     private $exception;
 
     public function __construct()
