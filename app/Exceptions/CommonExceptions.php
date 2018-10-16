@@ -4,7 +4,9 @@ namespace App\Exceptions;
 
 use Exception;
 
-class CommonExceptions {
+class CommonExceptions extends Exception {
+
+    const EMPTY_BODY = 'Body request is empty';
 
     private $exception;
 
