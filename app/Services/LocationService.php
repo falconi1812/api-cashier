@@ -11,6 +11,7 @@ use Illuminate\Mail\Message;
 use PDF;
 use Mail;
 use App\Helpers\PDFHelper;
+use App\Exceptions\CommonExceptions;
 
 class LocationService extends Service
 {
@@ -168,6 +169,28 @@ class LocationService extends Service
         $date = is_null($date) ? date('Y-m-d') : $date;
 
         return $this->locationsRepository->trash($date);
+    }
+
+    /**
+     * @SWG\Definition(
+     * 		definition="setItemsPerLocationCodeForced",
+     *    @SWG\Property(property="id", type="string"),
+     *    @SWG\Property(property="product_id", type="string"),
+     *    @SWG\Property(property="location_id", type="string"),
+     *    @SWG\Property(property="products_in_list", type="string"),
+     *    @SWG\Property(property="products_in_payment", type="string"),
+     *    @SWG\Property(property="total_payed", type="string"),
+     * )
+     */
+    public function setForceItems(string $code, int $product_id, $body) : \App\LocationProducts
+    {
+        if (empty($body)) {
+//            throw new CommonExceptions::EMPTY_BODY;
+        }
+
+        $this->locationsRepository->replaceItemsInList($code, $product_id, $body);
+
+        return $this->locationsRepository->getProductsByCodeAndProductId($code, $product_id);
     }
 
 }

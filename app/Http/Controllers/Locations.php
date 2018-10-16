@@ -130,6 +130,34 @@ class LocationsController extends Controller
         return response()->json($this->locationService->getTrash($date));
     }
 
+    /**
+     * @SWG\Put(
+     *     path="/locations/force/products/{location_code}/{product_id}",
+     *     @SWG\Parameter(name="location_code", in="path", description="location code. Example: DUF3D92P", required=true, type="string"),
+     *     @SWG\Parameter(name="product_id", in="path", description="product ID", required=true, type="string"),
+     *     @SWG\Parameter(
+     *        name="body",
+     *        in="body",
+     *        description="List of ids",
+     *        required=false,
+     *        @SWG\Schema(
+     *              @SWG\Property(property="products_in_list", type="integer"),
+     *              @SWG\Property(property="products_in_payment", type="integer")
+     *          )
+     *      ),
+     *     @SWG\Response(
+     *          response="200",
+     *          description="Should save items in the location",
+     *          @SWG\Schema(ref="#/definitions/setItemsPerLocationCode")),
+     *     tags={"Locations"},
+     * )
+     */
+    public function forceItems($location_code, $product_id, Request $request)
+    {
+        $body = $request->all();
+        return response()->json($this->locationService->setForceItems($location_code, $product_id, $body));
+    }
+
 }
 
 ?>

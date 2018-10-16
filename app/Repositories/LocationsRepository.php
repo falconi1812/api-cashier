@@ -325,6 +325,21 @@ class LocationsRepository extends Repository {
 
         return $allProducts;
     }
+
+    /**
+     * @param string $code
+     * @param int $product_id
+     * @param array $items
+     * @return mixed
+     */
+    public function replaceItemsInList(string $code, int $product_id, array $items)
+    {
+        $products = $this->getProductsByCodeAndProductId($code, $product_id);
+        $products->products_in_list = $items['products_in_list'];
+        $products->products_in_payment = $items['products_in_payment'];
+
+        return $products->save();
+    }
 }
 
 ?>

@@ -23,6 +23,7 @@ Route::get('/locations/in-trash/{date?}', 'LocationsController@getDeletedLocatio
 Route::put('/locations/in-trash/{location_code}', 'LocationsController@restoreLocation');
 Route::get('/locations/{location_code}', 'LocationsController@getLocation');
 Route::put('/locations/products/{location_code}/{product_id}', 'LocationsController@setItems');
+Route::put('/locations/force/products/{location_code}/{product_id}', 'LocationsController@forceItems');
 Route::delete('/locations/{location_code}', 'LocationsController@closeLocation');
 
 Route::get('/payments', 'PaymentsController@readAll');
