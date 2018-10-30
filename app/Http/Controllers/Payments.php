@@ -47,7 +47,7 @@ class PaymentsController extends Controller
      *        required=true,
      *        @SWG\Property( type="array", @SWG\Items(
      *              @SWG\Property(property="product_id", type="integer"),
-     *              @SWG\Property(property="quantity", type="integer"),
+     *              @SWG\Property(property="quantity", type="number", format="float"),
      *          )
      *        ),
      *      ),

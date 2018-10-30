@@ -45,8 +45,7 @@ class Payments extends Model
       return [
             'product_id' => 'required|integer',
             'location_id' => 'required|integer',
-            'type_id' => 'required|integer',
-            'quantity' => 'integer'
+            'type_id' => 'required|integer'
         ];
   }
 
